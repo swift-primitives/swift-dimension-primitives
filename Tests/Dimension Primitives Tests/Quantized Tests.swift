@@ -6,11 +6,12 @@
 //
 
 import Dimension_Primitives
+import Numeric_Primitives
 import Testing
 
 // MARK: - Test Space
 
-enum TestQuantizedSpace: Quantized {
+enum TestQuantizedSpace: Numeric.Quantized {
     typealias Scalar = Double
     static var quantum: Double { 0.01 }
 }

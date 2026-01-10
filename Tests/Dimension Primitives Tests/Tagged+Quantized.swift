@@ -6,11 +6,12 @@
 //
 
 @_spi(Internal) import Dimension_Primitives
+import Numeric_Primitives
 import Testing
 
 // MARK: - Test Space
 
-private enum TestSpace: Quantized {
+private enum TestSpace: Numeric.Quantized {
     typealias Scalar = Double
     static var quantum: Double { 0.01 }
 }

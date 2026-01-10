@@ -1,6 +1,8 @@
 // Tagged+Quantized.swift
 // Quantization support and affine arithmetic for Tagged types.
 
+import Numeric_Primitives
+
 // MARK: - Canonical Quantization
 
 extension Tagged where RawValue: BinaryFloatingPoint {
@@ -18,7 +20,7 @@ extension Tagged where RawValue: BinaryFloatingPoint {
     /// This overload is selected when Space conforms to Quantized.
     /// Produces canonical representation: same tick always yields identical bits.
     @inlinable
-    public static func _quantize<S: Quantized>(_ value: RawValue, in space: S.Type) -> Self {
+    public static func _quantize<S: Numeric.Quantized>(_ value: RawValue, in space: S.Type) -> Self {
         let q = S.quantum(as: RawValue.self)
         let ticks = Int64((value / q).rounded())
         return Self(RawValue(ticks) * q)
@@ -27,7 +29,7 @@ extension Tagged where RawValue: BinaryFloatingPoint {
 
 // MARK: - Tick Access
 
-extension Tagged where Tag: Spatial, Tag.Space: Quantized, RawValue: BinaryFloatingPoint {
+extension Tagged where Tag: Spatial, Tag.Space: Numeric.Quantized, RawValue: BinaryFloatingPoint {
     /// The integer tick representing this quantized value.
     ///
     /// The tick is the canonical representation: `value ≈ tick × quantum`.
@@ -50,7 +52,7 @@ extension Tagged where Tag: Spatial, Tag.Space: Quantized, RawValue: BinaryFloat
 
 // MARK: - Tick-Based Equality
 
-extension Tagged where Tag: Spatial, Tag.Space: Quantized, RawValue: BinaryFloatingPoint {
+extension Tagged where Tag: Spatial, Tag.Space: Numeric.Quantized, RawValue: BinaryFloatingPoint {
     /// Compares two quantized values by their tick (grid point).
     ///
     /// This is the mathematically correct equality for quantized types:

@@ -463,7 +463,7 @@ public func - <Scalar: AdditiveArithmetic>(
 
 /// Multiplies X-displacement by X-displacement, returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Displacement.X<Space>.Value<Scalar>,
     rhs: Displacement.X<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -472,7 +472,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Y-displacement by Y-displacement, returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Displacement.Y<Space>.Value<Scalar>,
     rhs: Displacement.Y<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -481,7 +481,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Z-displacement by Z-displacement, returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Displacement.Z<Space>.Value<Scalar>,
     rhs: Displacement.Z<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -490,7 +490,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies X-displacement by Y-displacement, returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Displacement.X<Space>.Value<Scalar>,
     rhs: Displacement.Y<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -499,7 +499,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Y-displacement by X-displacement, returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Displacement.Y<Space>.Value<Scalar>,
     rhs: Displacement.X<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -508,7 +508,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies X-displacement by Z-displacement, returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Displacement.X<Space>.Value<Scalar>,
     rhs: Displacement.Z<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -517,7 +517,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Z-displacement by X-displacement, returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Displacement.Z<Space>.Value<Scalar>,
     rhs: Displacement.X<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -526,7 +526,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Y-displacement by Z-displacement, returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Displacement.Y<Space>.Value<Scalar>,
     rhs: Displacement.Z<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -535,7 +535,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Z-displacement by Y-displacement, returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Displacement.Z<Space>.Value<Scalar>,
     rhs: Displacement.Y<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -550,7 +550,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies X-extent (width) by X-extent (width), returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Extent.X<Space>.Value<Scalar>,
     rhs: Extent.X<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -559,7 +559,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Y-extent (height) by Y-extent (height), returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Extent.Y<Space>.Value<Scalar>,
     rhs: Extent.Y<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -568,7 +568,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Z-extent (depth) by Z-extent (depth), returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Extent.Z<Space>.Value<Scalar>,
     rhs: Extent.Z<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -577,7 +577,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies X-extent (width) by Y-extent (height), returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Extent.X<Space>.Value<Scalar>,
     rhs: Extent.Y<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -586,7 +586,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Y-extent (height) by X-extent (width), returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Extent.Y<Space>.Value<Scalar>,
     rhs: Extent.X<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -595,7 +595,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies X-extent (width) by Z-extent (depth), returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Extent.X<Space>.Value<Scalar>,
     rhs: Extent.Z<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -604,7 +604,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Z-extent (depth) by X-extent (width), returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Extent.Z<Space>.Value<Scalar>,
     rhs: Extent.X<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -613,7 +613,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Y-extent (height) by Z-extent (depth), returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Extent.Y<Space>.Value<Scalar>,
     rhs: Extent.Z<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -622,7 +622,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies Z-extent (depth) by Y-extent (height), returning area.
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Extent.Z<Space>.Value<Scalar>,
     rhs: Extent.Y<Space>.Value<Scalar>
 ) -> Area<Space>.Value<Scalar> {
@@ -633,7 +633,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies two lengths (Measure<1>), returning area (Measure<2>).
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Measure<1, Space>.Value<Scalar>,
     rhs: Measure<1, Space>.Value<Scalar>
 ) -> Measure<2, Space>.Value<Scalar> {
@@ -642,7 +642,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies length by area, returning volume (Measure<3>).
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Measure<1, Space>.Value<Scalar>,
     rhs: Measure<2, Space>.Value<Scalar>
 ) -> Measure<3, Space>.Value<Scalar> {
@@ -651,7 +651,7 @@ public func * <Space, Scalar: Numeric>(
 
 /// Multiplies area by length, returning volume (Measure<3>).
 @inlinable
-public func * <Space, Scalar: Numeric>(
+public func * <Space, Scalar: Swift.Numeric>(
     lhs: Measure<2, Space>.Value<Scalar>,
     rhs: Measure<1, Space>.Value<Scalar>
 ) -> Measure<3, Space>.Value<Scalar> {
