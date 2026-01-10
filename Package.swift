@@ -21,7 +21,6 @@ let package = Package(
         .package(path: "../swift-identity-primitives"),
         .package(path: "../swift-numeric-primitives"),
         .package(path: "../swift-formatting-primitives"),
-        .package(url: "https://github.com/apple/swift-numerics", from: "1.0.0"),
         .package(path: "../swift-test-support-primitives"),
     ],
     targets: [
@@ -30,8 +29,8 @@ let package = Package(
             dependencies: [
                 .product(name: "Identity Primitives", package: "swift-identity-primitives"),
                 .product(name: "Numeric Primitives", package: "swift-numeric-primitives"),
+                .product(name: "Real Primitives", package: "swift-numeric-primitives"),
                 .product(name: "Formatting Primitives", package: "swift-formatting-primitives"),
-                .product(name: "RealModule", package: "swift-numerics"),
             ]
         ),
         .testTarget(
