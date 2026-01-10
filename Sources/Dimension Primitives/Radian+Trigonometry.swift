@@ -1,17 +1,17 @@
 // Radian+Trigonometry.swift
 // Trigonometric functions and constants for Radian.
 
-public import RealModule
+public import Real_Primitives
 
 // MARK: - Trigonometric Functions (Static Implementation)
 
-extension Tagged where Tag == Angle.Radian, RawValue: Real {
+extension Tagged where Tag == Angle.Radian, RawValue: Numeric.Real {
     /// Sine of an angle.
     ///
     /// Returns a dimensionless scale factor (ratio of opposite/hypotenuse).
     @inlinable
     public static func sin(of angle: Self) -> Scale<1, RawValue> {
-        Scale(RawValue.sin(angle.rawValue))
+        Scale(RawValue.math.sin(angle.rawValue))
     }
 
     /// Cosine of an angle.
@@ -19,7 +19,7 @@ extension Tagged where Tag == Angle.Radian, RawValue: Real {
     /// Returns a dimensionless scale factor (ratio of adjacent/hypotenuse).
     @inlinable
     public static func cos(of angle: Self) -> Scale<1, RawValue> {
-        Scale(RawValue.cos(angle.rawValue))
+        Scale(RawValue.math.cos(angle.rawValue))
     }
 
     /// Tangent of an angle.
@@ -27,13 +27,13 @@ extension Tagged where Tag == Angle.Radian, RawValue: Real {
     /// Returns a dimensionless scale factor (ratio of opposite/adjacent).
     @inlinable
     public static func tan(of angle: Self) -> Scale<1, RawValue> {
-        Scale(RawValue.tan(angle.rawValue))
+        Scale(RawValue.math.tan(angle.rawValue))
     }
 }
 
 // MARK: - Trigonometric Functions (Instance Convenience)
 
-extension Tagged where Tag == Angle.Radian, RawValue: Real {
+extension Tagged where Tag == Angle.Radian, RawValue: Numeric.Real {
     /// Sine of the angle.
     @inlinable
     public var sin: Scale<1, RawValue> { Self.sin(of: self) }
@@ -49,14 +49,14 @@ extension Tagged where Tag == Angle.Radian, RawValue: Real {
 
 // MARK: - Inverse Trigonometric Functions
 
-extension Tagged where Tag == Angle.Radian, RawValue: Real {
+extension Tagged where Tag == Angle.Radian, RawValue: Numeric.Real {
     /// Creates an angle from its sine value.
     ///
     /// - Parameter ratio: Sine value (dimensionless ratio) in range [-1, 1]
     /// - Returns: Angle in range [-π/2, π/2]
     @inlinable
     public static func asin(_ ratio: Scale<1, RawValue>) -> Self {
-        Self(RawValue.asin(ratio.value))
+        Self(RawValue.math.asin(ratio.value))
     }
 
     /// Creates an angle from its cosine value.
@@ -65,7 +65,7 @@ extension Tagged where Tag == Angle.Radian, RawValue: Real {
     /// - Returns: Angle in range [0, π]
     @inlinable
     public static func acos(_ ratio: Scale<1, RawValue>) -> Self {
-        Self(RawValue.acos(ratio.value))
+        Self(RawValue.math.acos(ratio.value))
     }
 
     /// Creates an angle from its tangent value.
@@ -74,7 +74,7 @@ extension Tagged where Tag == Angle.Radian, RawValue: Real {
     /// - Returns: Angle in range [-π/2, π/2]
     @inlinable
     public static func atan(_ ratio: Scale<1, RawValue>) -> Self {
-        Self(RawValue.atan(ratio.value))
+        Self(RawValue.math.atan(ratio.value))
     }
 
     /// Creates an angle from y and x displacements using atan2.
@@ -87,13 +87,13 @@ extension Tagged where Tag == Angle.Radian, RawValue: Real {
         y: Displacement.Y<Space>.Value<RawValue>,
         x: Displacement.X<Space>.Value<RawValue>
     ) -> Self {
-        Self(RawValue.atan2(y: y.rawValue, x: x.rawValue))
+        Self(RawValue.math.atan2(y.rawValue, x.rawValue))
     }
 }
 
 // MARK: - Pi Helpers
 
-extension Tagged where Tag == Angle.Radian, RawValue: Real {
+extension Tagged where Tag == Angle.Radian, RawValue: Numeric.Real {
     /// Returns π divided by the given value.
     ///
     /// ## Example
@@ -121,7 +121,7 @@ extension Tagged where Tag == Angle.Radian, RawValue: Real {
 
 // MARK: - Normalization
 
-extension Tagged where Tag == Angle.Radian, RawValue: Real {
+extension Tagged where Tag == Angle.Radian, RawValue: Numeric.Real {
     /// Normalizes an angle to the range [0, 2π).
     ///
     /// ## Example
