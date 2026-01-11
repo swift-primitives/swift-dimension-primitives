@@ -66,7 +66,37 @@ extension Tagged where Tag == Angle.Degree, RawValue: BinaryFloatingPoint {
     public static var full: Angle.Degree.Full<RawValue> { .init() }
 }
 
-extension Tagged where Tag == Angle.Degree, RawValue: Numeric.Real {
+// MARK: - Double
+
+extension Tagged where Tag == Angle.Degree, RawValue == Double {
+    /// Right angle (90°)
+    @inlinable
+    public static var rightAngle: Self { Self(90) }
+
+    /// Straight angle (180°)
+    @inlinable
+    public static var straightAngle: Self { Self(180) }
+
+    /// Full circle (360°)
+    @inlinable
+    public static var fullCircle: Self { Self(360) }
+
+    /// Forty-five degrees (45°)
+    @inlinable
+    public static var fortyFive: Self { Self(45) }
+
+    /// Sixty degrees (60°)
+    @inlinable
+    public static var sixty: Self { Self(60) }
+
+    /// Thirty degrees (30°)
+    @inlinable
+    public static var thirty: Self { Self(30) }
+}
+
+// MARK: - Float
+
+extension Tagged where Tag == Angle.Degree, RawValue == Float {
     /// Right angle (90°)
     @inlinable
     public static var rightAngle: Self { Self(90) }
@@ -292,7 +322,25 @@ extension Tagged where Tag == Angle.Degree, RawValue: BinaryFloatingPoint {
 
 // MARK: - Trigonometry (via Radians)
 
-extension Tagged where Tag == Angle.Degree, RawValue: Numeric.Real & BinaryFloatingPoint {
+// MARK: Double
+
+extension Tagged where Tag == Angle.Degree, RawValue == Double {
+    /// Sine of the angle.
+    @inlinable
+    public var sin: Scale<1, RawValue> { radians.sin }
+
+    /// Cosine of the angle.
+    @inlinable
+    public var cos: Scale<1, RawValue> { radians.cos }
+
+    /// Tangent of the angle.
+    @inlinable
+    public var tan: Scale<1, RawValue> { radians.tan }
+}
+
+// MARK: Float
+
+extension Tagged where Tag == Angle.Degree, RawValue == Float {
     /// Sine of the angle.
     @inlinable
     public var sin: Scale<1, RawValue> { radians.sin }

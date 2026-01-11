@@ -1,6 +1,6 @@
 // Enumeration Tests.swift
 
-import Test_Support_Primitives
+import Test_Primitives
 import Testing
 
 @testable import Dimension_Primitives

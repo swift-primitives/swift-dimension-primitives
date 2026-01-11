@@ -1,6 +1,6 @@
 // Tagged Tests.swift
 
-import Test_Support_Primitives
+import Test_Primitives
 import Testing
 
 @testable import Dimension_Primitives
@@ -37,8 +37,8 @@ struct `Tagged - Static Functions` {
     func `retag preserves raw value`(value: Int) {
         let tagged: Tagged<Tag1, Int> = Tagged(value)
         let retagged: Tagged<Tag2, Int> = Tagged<Tag1, Int>.retag(tagged)
-        #expect(retagged._rawValue == tagged._rawValue)
-        #expect(retagged._rawValue == value)
+        #expect(retagged.rawValue == tagged.rawValue)
+        #expect(retagged.rawValue == value)
     }
 }
 

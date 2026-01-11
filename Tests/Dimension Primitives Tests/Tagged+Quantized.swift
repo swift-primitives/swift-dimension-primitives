@@ -48,7 +48,7 @@ struct `Tagged+Quantized` {
             let x1 = QX(ticks: 14940)
             let x2 = QX(ticks: 14940)
             #expect(x1 == x2)
-            #expect(x1._rawValue.bitPattern == x2._rawValue.bitPattern)
+            #expect(x1.rawValue.bitPattern == x2.rawValue.bitPattern)
         }
     }
 
@@ -191,7 +191,7 @@ struct `Tagged+Quantized` {
             let direct = start + total
 
             // Same tick means identical IEEE 754 bits
-            #expect(accumulated._rawValue.bitPattern == direct._rawValue.bitPattern)
+            #expect(accumulated.rawValue.bitPattern == direct.rawValue.bitPattern)
         }
     }
 }
