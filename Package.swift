@@ -18,10 +18,10 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../swift-identity-primitives"),
-        .package(path: "../swift-numeric-primitives"),
-        .package(path: "../swift-formatting-primitives"),
-        .package(path: "../swift-test-primitives"),
+        .package(url: "https://github.com/swift-primitives/swift-identity-primitives.git", from: "0.0.1"),
+        .package(url: "https://github.com/swift-primitives/swift-numeric-primitives.git", from: "0.0.1"),
+        .package(url: "https://github.com/swift-primitives/swift-formatting-primitives.git", from: "0.0.1"),
+        .package(url: "https://github.com/swift-primitives/swift-test-primitives.git", from: "0.0.1"),
     ],
     targets: [
         .target(
