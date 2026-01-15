@@ -18,10 +18,10 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-primitives/swift-identity-primitives.git", from: "0.0.1"),
-        .package(url: "https://github.com/swift-primitives/swift-numeric-primitives.git", from: "0.0.1"),
-        .package(url: "https://github.com/swift-primitives/swift-formatting-primitives.git", from: "0.0.1"),
-        .package(url: "https://github.com/swift-primitives/swift-test-primitives.git", from: "0.0.1"),
+        .package(path: "../swift-identity-primitives"),
+        .package(path: "../swift-numeric-primitives"),
+        .package(path: "../swift-formatting-primitives"),
+        .package(path: "../swift-test-primitives"),
     ],
     targets: [
         .target(
@@ -44,3 +44,10 @@ let package = Package(
     ],
     swiftLanguageModes: [.v6]
 )
+
+for target in package.targets where ![.system, .binary, .plugin].contains(target.type) {
+    let settings: [SwiftSetting] = [
+        .strictMemorySafety(),
+    ]
+    target.swiftSettings = (target.swiftSettings ?? []) + settings
+}
