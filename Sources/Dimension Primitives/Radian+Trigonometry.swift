@@ -3,9 +3,9 @@
 
 public import Real_Primitives
 
-// MARK: - Generic TranscendentalFloatingPoint
+// MARK: - Numeric.Transcendental
 
-extension Tagged where Tag == Angle.Radian, RawValue: TranscendentalFloatingPoint {
+extension Tagged where Tag == Angle.Radian, RawValue: BinaryFloatingPoint & Numeric.Transcendental {
     /// Sine of an angle.
     @inlinable
     public static func sin(of angle: Self) -> Scale<1, RawValue> {
