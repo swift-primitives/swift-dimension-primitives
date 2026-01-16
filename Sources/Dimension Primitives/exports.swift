@@ -12,3 +12,10 @@
 // Re-export Tagged from Identity Primitives so consumers don't need to import separately
 @_exported import struct Identity_Primitives.Tagged
 @_exported import enum Numeric_Primitives.Numeric
+
+// Re-export algebraic types from Algebra Primitives for backwards compatibility
+@_exported import protocol Algebra_Primitives.Enumerable
+@_exported import struct Algebra_Primitives.Enumeration
+@_exported import struct Algebra_Primitives.Ordinal
+@_exported import typealias Algebra_Primitives.Fin
+@_exported import struct Algebra_Primitives.Pair
