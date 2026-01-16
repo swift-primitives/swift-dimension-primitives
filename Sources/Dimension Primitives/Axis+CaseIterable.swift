@@ -1,9 +1,9 @@
 // Axis+CaseIterable.swift
-// CaseIterable conformance for Axis<N> via Enumerable.
+// CaseIterable conformance for Axis<N> via Finite.Enumerable.
 
-// MARK: - Axis: Enumerable
+// MARK: - Axis: Finite.Enumerable
 
-extension Axis: Enumerable {
+extension Axis: Finite.Enumerable {
     /// Number of axes in N-dimensional space.
     @inlinable
     public static var caseCount: Int { N }
