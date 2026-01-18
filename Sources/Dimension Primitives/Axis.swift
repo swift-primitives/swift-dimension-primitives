@@ -34,8 +34,11 @@ public struct Axis<let N: Int>: Sendable, Hashable {
     }
 
     /// Creates an axis from a raw value without bounds checking.
-    @usableFromInline
-    init(unchecked rawValue: Int) {
+    ///
+    /// - Parameter __unchecked: Marker parameter indicating unchecked access.
+    /// - Parameter rawValue: Must be in `0..<N`.
+    @inlinable
+    public init(__unchecked: Void, _ rawValue: Int) {
         self.rawValue = rawValue
     }
 }
@@ -71,7 +74,7 @@ public struct Axis<let N: Int>: Sendable, Hashable {
 extension Axis where N == 1 {
     /// First axis (index 0).
     @inlinable
-    public static var primary: Self { Self(unchecked: 0) }
+    public static var primary: Self { Self(__unchecked: (), 0) }
 }
 
 // MARK: - 2D
@@ -79,18 +82,18 @@ extension Axis where N == 1 {
 extension Axis where N == 2 {
     /// First axis (index 0, typically X/horizontal).
     @inlinable
-    public static var primary: Self { Self(unchecked: 0) }
+    public static var primary: Self { Self(__unchecked: (), 0) }
 
     /// Second axis (index 1, typically Y/vertical).
     @inlinable
-    public static var secondary: Self { Self(unchecked: 1) }
+    public static var secondary: Self { Self(__unchecked: (), 1) }
 
     /// Returns the perpendicular axis of a 2D axis.
     ///
     /// In 2D, each axis has exactly one perpendicular: primary↔secondary.
     @inlinable
     public static func perpendicular(of axis: Self) -> Self {
-        Self(unchecked: 1 - axis.rawValue)
+        Self(__unchecked: (), 1 - axis.rawValue)
     }
 
     /// Returns the perpendicular axis.
@@ -107,15 +110,15 @@ extension Axis where N == 2 {
 extension Axis where N == 3 {
     /// First axis (index 0, typically X/horizontal).
     @inlinable
-    public static var primary: Self { Self(unchecked: 0) }
+    public static var primary: Self { Self(__unchecked: (), 0) }
 
     /// Second axis (index 1, typically Y/vertical).
     @inlinable
-    public static var secondary: Self { Self(unchecked: 1) }
+    public static var secondary: Self { Self(__unchecked: (), 1) }
 
     /// Third axis (index 2, typically Z/depth).
     @inlinable
-    public static var tertiary: Self { Self(unchecked: 2) }
+    public static var tertiary: Self { Self(__unchecked: (), 2) }
 }
 
 // MARK: - 4D
@@ -123,17 +126,17 @@ extension Axis where N == 3 {
 extension Axis where N == 4 {
     /// First axis (index 0, typically X).
     @inlinable
-    public static var primary: Self { Self(unchecked: 0) }
+    public static var primary: Self { Self(__unchecked: (), 0) }
 
     /// Second axis (index 1, typically Y).
     @inlinable
-    public static var secondary: Self { Self(unchecked: 1) }
+    public static var secondary: Self { Self(__unchecked: (), 1) }
 
     /// Third axis (index 2, typically Z).
     @inlinable
-    public static var tertiary: Self { Self(unchecked: 2) }
+    public static var tertiary: Self { Self(__unchecked: (), 2) }
 
     /// Fourth axis (index 3, typically W).
     @inlinable
-    public static var quaternary: Self { Self(unchecked: 3) }
+    public static var quaternary: Self { Self(__unchecked: (), 3) }
 }

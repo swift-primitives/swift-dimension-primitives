@@ -10,29 +10,29 @@ import Testing
 @Suite
 struct `Axis+CaseIterable - Enumerable` {
     @Test
-    func `caseCount equals dimension`() {
-        #expect(Axis<1>.caseCount == 1)
-        #expect(Axis<2>.caseCount == 2)
-        #expect(Axis<3>.caseCount == 3)
-        #expect(Axis<4>.caseCount == 4)
+    func `count equals dimension`() {
+        #expect(Axis<1>.count == 1)
+        #expect(Axis<2>.count == 2)
+        #expect(Axis<3>.count == 3)
+        #expect(Axis<4>.count == 4)
     }
 
     @Test(arguments: [Axis<3>.primary, Axis<3>.secondary, Axis<3>.tertiary])
-    func `caseIndex matches rawValue`(axis: Axis<3>) {
-        #expect(axis.caseIndex == axis.rawValue)
+    func `ordinal matches rawValue`(axis: Axis<3>) {
+        #expect(axis.ordinal == axis.rawValue)
     }
 
     @Test(arguments: [0, 1, 2])
-    func `init from caseIndex creates correct axis`(index: Int) {
-        let axis: Axis<3> = Axis(caseIndex: index)
-        #expect(axis.rawValue == index)
+    func `init from ordinal creates correct axis`(ordinal: Int) {
+        let axis: Axis<3> = Axis(ordinal: ordinal)
+        #expect(axis.rawValue == ordinal)
     }
 
     @Test(arguments: [0, 1, 2, 3])
-    func `caseIndex roundtrip`(index: Int) {
-        let axis: Axis<4> = Axis(caseIndex: index)
-        #expect(axis.caseIndex == index)
-        let reconstructed = Axis<4>(caseIndex: axis.caseIndex)
+    func `ordinal roundtrip`(ordinal: Int) {
+        let axis: Axis<4> = Axis(ordinal: ordinal)
+        #expect(axis.ordinal == ordinal)
+        let reconstructed = Axis<4>(ordinal: axis.ordinal)
         #expect(reconstructed.rawValue == axis.rawValue)
     }
 }

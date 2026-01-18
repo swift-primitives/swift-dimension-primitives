@@ -6,17 +6,15 @@
 extension Axis: Finite.Enumerable {
     /// Number of axes in N-dimensional space.
     @inlinable
-    public static var caseCount: Int { N }
+    public static var count: Int { N }
 
-    /// Index of this axis (0 to N-1).
+    /// Ordinal of this axis (0 to N-1).
     @inlinable
-    public var caseIndex: Int { rawValue }
+    public var ordinal: Int { rawValue }
 
-    /// Creates an axis from its index.
-    ///
-    /// - Precondition: `caseIndex` must be in 0..<N
+    /// Creates an axis from its ordinal without bounds checking.
     @inlinable
-    public init(caseIndex: Int) {
-        self.init(unchecked: caseIndex)
+    public init(__unchecked: Void, ordinal: Int) {
+        self.init(__unchecked: (), ordinal)
     }
 }

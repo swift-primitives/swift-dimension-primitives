@@ -158,11 +158,11 @@ struct `Axis - Type Safety` {
 @Suite
 struct `Axis - Enumerable Conformance` {
     @Test
-    func `caseCount matches dimension`() {
-        #expect(Axis<1>.caseCount == 1)
-        #expect(Axis<2>.caseCount == 2)
-        #expect(Axis<3>.caseCount == 3)
-        #expect(Axis<4>.caseCount == 4)
+    func `count matches dimension`() {
+        #expect(Axis<1>.count == 1)
+        #expect(Axis<2>.count == 2)
+        #expect(Axis<3>.count == 3)
+        #expect(Axis<4>.count == 4)
     }
 
     @Test
@@ -174,9 +174,9 @@ struct `Axis - Enumerable Conformance` {
     }
 
     @Test
-    func `caseIndex matches rawValue`() {
+    func `ordinal matches rawValue`() {
         let axis: Axis<3> = .tertiary
-        #expect(axis.caseIndex == axis.rawValue)
-        #expect(axis.caseIndex == 2)
+        #expect(axis.ordinal == axis.rawValue)
+        #expect(axis.ordinal == 2)
     }
 }
