@@ -9,21 +9,20 @@ let package = Package(
         .iOS(.v26),
         .tvOS(.v26),
         .watchOS(.v26),
-        .visionOS(.v26),
+        .visionOS(.v26)
     ],
     products: [
         .library(
             name: "Dimension Primitives",
             targets: ["Dimension Primitives"]
-        ),
+        )
     ],
     dependencies: [
         .package(path: "../swift-algebra-primitives"),
         .package(path: "../swift-finite-primitives"),
         .package(path: "../swift-identity-primitives"),
         .package(path: "../swift-numeric-primitives"),
-        .package(path: "../swift-formatting-primitives"),
-        .package(path: "../swift-test-primitives"),
+        .package(path: "../swift-formatting-primitives")
     ],
     targets: [
         .target(
@@ -34,17 +33,9 @@ let package = Package(
                 .product(name: "Identity Primitives", package: "swift-identity-primitives"),
                 .product(name: "Numeric Primitives", package: "swift-numeric-primitives"),
                 .product(name: "Real Primitives", package: "swift-numeric-primitives"),
-                .product(name: "Formatting Primitives", package: "swift-formatting-primitives"),
+                .product(name: "Formatting Primitives", package: "swift-formatting-primitives")
             ]
-        ),
-        .testTarget(
-            name: "Dimension Primitives Tests",
-            dependencies: [
-                "Dimension Primitives",
-                .product(name: "Numeric Primitives", package: "swift-numeric-primitives"),
-                .product(name: "Test Primitives", package: "swift-test-primitives"),
-            ]
-        ),
+        )
     ],
     swiftLanguageModes: [.v6]
 )
@@ -55,7 +46,7 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
         .enableExperimentalFeature("Lifetimes"),
-        .strictMemorySafety(),
+        .strictMemorySafety()
     ]
     target.swiftSettings = (target.swiftSettings ?? []) + settings
 }

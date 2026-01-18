@@ -61,9 +61,10 @@ struct `Axis - Initializers` {
     }
 
     @Test(arguments: [0, 1, 2])
-    func `init unchecked creates axis without bounds checking`(value: Int) {
-        let axis: Axis<5> = Axis(unchecked: value)
-        #expect(axis.rawValue == value)
+    func `init from valid rawValue succeeds`(value: Int) {
+        let axis: Axis<5>? = Axis(value)
+        #expect(axis != nil)
+        #expect(axis?.rawValue == value)
     }
 }
 

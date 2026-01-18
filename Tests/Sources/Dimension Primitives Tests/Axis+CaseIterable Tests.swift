@@ -24,16 +24,18 @@ struct `Axis+CaseIterable - Enumerable` {
 
     @Test(arguments: [0, 1, 2])
     func `init from ordinal creates correct axis`(ordinal: Int) {
-        let axis: Axis<3> = Axis(ordinal: ordinal)
-        #expect(axis.rawValue == ordinal)
+        let axis: Axis<3>? = Axis(ordinal)
+        #expect(axis != nil)
+        #expect(axis?.rawValue == ordinal)
     }
 
     @Test(arguments: [0, 1, 2, 3])
     func `ordinal roundtrip`(ordinal: Int) {
-        let axis: Axis<4> = Axis(ordinal: ordinal)
-        #expect(axis.ordinal == ordinal)
-        let reconstructed = Axis<4>(ordinal: axis.ordinal)
-        #expect(reconstructed.rawValue == axis.rawValue)
+        let axis: Axis<4>? = Axis(ordinal)
+        #expect(axis != nil)
+        #expect(axis?.ordinal == ordinal)
+        let reconstructed: Axis<4>? = Axis(axis!.ordinal)
+        #expect(reconstructed?.rawValue == axis?.rawValue)
     }
 }
 
