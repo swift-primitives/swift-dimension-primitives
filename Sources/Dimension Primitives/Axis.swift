@@ -24,12 +24,19 @@ public struct Axis<let N: Int>: Sendable, Hashable {
     /// Zero-based index of this axis (0 to N-1).
     public let rawValue: Int
 
+    /// Error thrown when axis construction fails.
+    public enum Error: Swift.Error, Hashable, Sendable {
+        /// The provided value was outside the valid range `0..<N`.
+        case outOfBounds(Int)
+    }
+
     /// Creates an axis from a raw index.
     ///
-    /// - Returns: The axis, or `nil` if the index is out of bounds.
+    /// - Parameter rawValue: The axis index.
+    /// - Throws: `Error.outOfBounds` if `rawValue < 0` or `rawValue >= N`.
     @inlinable
-    public init?(_ rawValue: Int) {
-        guard rawValue >= 0 && rawValue < N else { return nil }
+    public init(_ rawValue: Int) throws(Error) {
+        guard rawValue >= 0, rawValue < N else { throw .outOfBounds(rawValue) }
         self.rawValue = rawValue
     }
 
@@ -50,7 +57,9 @@ public struct Axis<let N: Int>: Sendable, Hashable {
         public init(from decoder: any Decoder) throws {
             let container = try decoder.singleValueContainer()
             let value = try container.decode(Int.self)
-            guard let axis = Self(value) else {
+            do {
+                self = try Self(value)
+            } catch {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
                         codingPath: decoder.codingPath,
@@ -59,7 +68,6 @@ public struct Axis<let N: Int>: Sendable, Hashable {
                     )
                 )
             }
-            self = axis
         }
 
         public func encode(to encoder: any Encoder) throws {
