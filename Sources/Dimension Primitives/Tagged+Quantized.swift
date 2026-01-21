@@ -12,7 +12,7 @@ extension Tagged where RawValue: BinaryFloatingPoint {
     /// Zero runtime cost: compiles to a direct initialization.
     @inlinable
     public static func _quantize<S>(_ value: RawValue, in space: S.Type) -> Self {
-        Self(value)
+        Self(__unchecked: (), value)
     }
 
     /// Finalizes an arithmetic result with quantization to the grid.
@@ -23,7 +23,7 @@ extension Tagged where RawValue: BinaryFloatingPoint {
     public static func _quantize<S: Numeric.Quantized>(_ value: RawValue, in space: S.Type) -> Self {
         let q = S.quantum(as: RawValue.self)
         let ticks = Int64((value / q).rounded())
-        return Self(RawValue(ticks) * q)
+        return Self(__unchecked: (), RawValue(ticks) * q)
     }
 }
 
@@ -46,7 +46,7 @@ extension Tagged where Tag: Spatial, Tag.Space: Numeric.Quantized, RawValue: Bin
     @inlinable
     public init(ticks: Int64) {
         let q = Tag.Space.quantum(as: RawValue.self)
-        self.init(RawValue(ticks) * q)
+        self.init(__unchecked: (), RawValue(ticks) * q)
     }
 }
 

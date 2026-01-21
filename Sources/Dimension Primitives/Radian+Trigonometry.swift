@@ -39,19 +39,19 @@ extension Tagged where Tag == Angle.Radian, RawValue: BinaryFloatingPoint & Nume
     /// Creates an angle from its sine value.
     @inlinable
     public static func asin(_ ratio: Scale<1, RawValue>) -> Self {
-        Self(RawValue._asin(ratio.value))
+        Self(__unchecked: (), RawValue._asin(ratio.value))
     }
 
     /// Creates an angle from its cosine value.
     @inlinable
     public static func acos(_ ratio: Scale<1, RawValue>) -> Self {
-        Self(RawValue._acos(ratio.value))
+        Self(__unchecked: (), RawValue._acos(ratio.value))
     }
 
     /// Creates an angle from its tangent value.
     @inlinable
     public static func atan(_ ratio: Scale<1, RawValue>) -> Self {
-        Self(RawValue._atan(ratio.value))
+        Self(__unchecked: (), RawValue._atan(ratio.value))
     }
 
     /// Creates an angle from y and x displacements using atan2.
@@ -60,19 +60,19 @@ extension Tagged where Tag == Angle.Radian, RawValue: BinaryFloatingPoint & Nume
         y: Displacement.Y<Space>.Value<RawValue>,
         x: Displacement.X<Space>.Value<RawValue>
     ) -> Self {
-        Self(RawValue._atan2(y.rawValue, x.rawValue))
+        Self(__unchecked: (), RawValue._atan2(y.rawValue, x.rawValue))
     }
 
     /// Returns π divided by the given value.
     @inlinable
     public static func pi(over n: RawValue) -> Self {
-        Self(RawValue.pi / n)
+        Self(__unchecked: (), RawValue.pi / n)
     }
 
     /// Returns π multiplied by the given value.
     @inlinable
     public static func pi(times n: RawValue) -> Self {
-        Self(RawValue.pi * n)
+        Self(__unchecked: (), RawValue.pi * n)
     }
 
     /// Normalizes an angle to the range [0, 2π).
@@ -83,7 +83,7 @@ extension Tagged where Tag == Angle.Radian, RawValue: BinaryFloatingPoint & Nume
         if result < 0 {
             result += twoPi
         }
-        return Self(result)
+        return Self(__unchecked: (), result)
     }
 
     /// Normalizes the angle to the range [0, 2π).

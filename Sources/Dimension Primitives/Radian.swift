@@ -12,13 +12,13 @@ public import Real_Primitives
 /// ## Example
 ///
 /// ```swift
-/// let angle = Radian(.pi / 4)       // 45°
+/// let angle = Radian(__unchecked: (), .pi / 4)       // 45°
 /// print(angle.sin)                  // 0.7071...
 /// print(angle.degrees)              // Degree(45.0)
 ///
 /// // Arithmetic operations
-/// let doubled = angle * 2           // Radian(π/2) = 90°
-/// let sum = angle + Radian(.pi)     // Radian(5π/4) = 225°
+/// let doubled = angle * 2           // Radian(__unchecked: (), π/2) = 90°
+/// let sum = angle + Radian(__unchecked: (), .pi)     // Radian(__unchecked: (), 5π/4) = 225°
 ///
 /// // Pi accessor pattern
 /// let halfPi = Radian<Double>.pi.half       // π/2
@@ -32,7 +32,7 @@ public typealias Radian<Scalar> = Angle.Radian.Value<Scalar>
 extension Tagged where Tag == Angle.Radian, RawValue: BinaryFloatingPoint {
     /// Zero radians
     @inlinable
-    public static var zero: Self { Self(0) }
+    public static var zero: Self { Self(__unchecked: (), .zero) }
 
     /// π radians (180°)
     @inlinable
@@ -40,15 +40,15 @@ extension Tagged where Tag == Angle.Radian, RawValue: BinaryFloatingPoint {
 
     /// π/2 radians (90°)
     @inlinable
-    public static var halfPi: Self { Self(.pi / 2) }
+    public static var halfPi: Self { Self(__unchecked: (), .pi / 2) }
 
     /// 2π radians (360°)
     @inlinable
-    public static var twoPi: Self { Self(.pi * 2) }
+    public static var twoPi: Self { Self(__unchecked: (), .pi * 2) }
 
     /// π/4 radians (45°)
     @inlinable
-    public static var quarterPi: Self { Self(.pi / 4) }
+    public static var quarterPi: Self { Self(__unchecked: (), .pi / 4) }
 }
 
 // MARK: - Pi Accessor
@@ -71,27 +71,27 @@ extension Angle.Radian {
 
         /// π radians (180 degrees).
         @inlinable
-        public var full: Radian<Scalar> { Radian(.pi) }
+        public var full: Radian<Scalar> { Radian(__unchecked: (), .pi) }
 
         /// π/2 radians (90 degrees).
         @inlinable
-        public var half: Radian<Scalar> { Radian(.pi / 2) }
+        public var half: Radian<Scalar> { Radian(__unchecked: (), .pi / 2) }
 
         /// π/4 radians (45 degrees).
         @inlinable
-        public var quarter: Radian<Scalar> { Radian(.pi / 4) }
+        public var quarter: Radian<Scalar> { Radian(__unchecked: (), .pi / 4) }
 
         /// 2π radians (360 degrees).
         @inlinable
-        public var two: Radian<Scalar> { Radian(.pi * 2) }
+        public var two: Radian<Scalar> { Radian(__unchecked: (), .pi * 2) }
 
         /// π/3 radians (60 degrees).
         @inlinable
-        public var third: Radian<Scalar> { Radian(.pi / 3) }
+        public var third: Radian<Scalar> { Radian(__unchecked: (), .pi / 3) }
 
         /// π/6 radians (30 degrees).
         @inlinable
-        public var sixth: Radian<Scalar> { Radian(.pi / 6) }
+        public var sixth: Radian<Scalar> { Radian(__unchecked: (), .pi / 6) }
 
         /// Typealias for compile-time fraction of π.
         public typealias Fraction<let Numerator: Int, let Denominator: Int> = Numeric.Fraction<Numerator, Denominator, Radian<Scalar>>
@@ -105,7 +105,7 @@ extension Angle.Radian {
         @inlinable
         public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator>
         where Scalar: Sendable {
-            .init(Radian(.pi * Scalar(Numerator) / Scalar(Denominator)))
+            .init(Radian(__unchecked: (), .pi * Scalar(Numerator) / Scalar(Denominator)))
         }
     }
 }
@@ -115,12 +115,12 @@ extension Angle.Radian {
 extension Tagged where Tag == Angle.Radian, RawValue: AdditiveArithmetic {
     @inlinable
     public static func + (lhs: Self, rhs: Self) -> Self {
-        Self(lhs.rawValue + rhs.rawValue)
+        Self(__unchecked: (), lhs.rawValue + rhs.rawValue)
     }
 
     @inlinable
     public static func - (lhs: Self, rhs: Self) -> Self {
-        Self(lhs.rawValue - rhs.rawValue)
+        Self(__unchecked: (), lhs.rawValue - rhs.rawValue)
     }
 }
 
@@ -128,20 +128,20 @@ extension Tagged where Tag == Angle.Radian, RawValue: Swift.Numeric {
     @_disfavoredOverload
     @inlinable
     public static func * (lhs: Self, rhs: RawValue) -> Self {
-        Self(lhs.rawValue * rhs)
+        Self(__unchecked: (), lhs.rawValue * rhs)
     }
 
     @_disfavoredOverload
     @inlinable
     public static func * (lhs: RawValue, rhs: Self) -> Self {
-        Self(lhs * rhs.rawValue)
+        Self(__unchecked: (), lhs * rhs.rawValue)
     }
 }
 
 extension Tagged where Tag == Angle.Radian, RawValue: FloatingPoint {
     @inlinable
     public static func / (lhs: Self, rhs: RawValue) -> Self {
-        Self(lhs.rawValue / rhs)
+        Self(__unchecked: (), lhs.rawValue / rhs)
     }
 }
 
@@ -150,7 +150,7 @@ extension Tagged where Tag == Angle.Radian, RawValue: FloatingPoint {
 extension Tagged where Tag == Angle.Radian, RawValue: SignedNumeric {
     @inlinable
     public static prefix func - (value: Self) -> Self {
-        Self(-value.rawValue)
+        Self(__unchecked: (), -value.rawValue)
     }
 }
 
@@ -163,11 +163,11 @@ extension Tagged where Tag == Angle.Radian, RawValue: BinaryFloatingPoint {
     ///
     /// ```swift
     /// let deg = Degree(90)
-    /// let rad = Radian(degrees: deg)  // Radian(π/2)
+    /// let rad = Radian(__unchecked: (), degrees: deg)  // Radian(__unchecked: (), π/2)
     /// ```
     @inlinable
     public init(degrees: Degree<RawValue>) {
-        self.init(degrees.rawValue * .pi / 180)
+        self.init(__unchecked: (), degrees.rawValue * .pi / 180)
     }
 }
 
@@ -177,7 +177,7 @@ extension Tagged where Tag == Angle.Radian, RawValue: BinaryFloatingPoint {
     /// ## Example
     ///
     /// ```swift
-    /// let rad = Radian(.pi)
+    /// let rad = Radian(__unchecked: (), .pi)
     /// print(rad.degrees)  // Degree(180)
     /// ```
     @inlinable

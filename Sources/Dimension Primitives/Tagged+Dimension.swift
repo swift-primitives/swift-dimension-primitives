@@ -18,15 +18,15 @@ import Identity_Primitives
 extension Tagged where RawValue: FloatingPoint {
     /// The unit value in the last place of 1.0.
     @inlinable
-    public static var ulpOfOne: Self { Self(RawValue.ulpOfOne) }
+    public static var ulpOfOne: Self { Self(__unchecked: (), RawValue.ulpOfOne) }
 
     /// Positive infinity.
     @inlinable
-    public static var infinity: Self { Self(RawValue.infinity) }
+    public static var infinity: Self { Self(__unchecked: (), RawValue.infinity) }
 
     /// A quiet NaN ("not a number").
     @inlinable
-    public static var nan: Self { Self(RawValue.nan) }
+    public static var nan: Self { Self(__unchecked: (), RawValue.nan) }
 
     /// A Boolean value indicating whether this instance is NaN.
     @inlinable
@@ -58,7 +58,7 @@ extension Tagged where RawValue: FloatingPoint {
 public func sqrt<Space, Scalar: FloatingPoint>(
     _ value: Tagged<Area<Space>, Scalar>
 ) -> Tagged<Magnitude<Space>, Scalar> {
-    Tagged(value.rawValue.squareRoot())
+    Tagged(__unchecked: (), value.rawValue.squareRoot())
 }
 
 /// Square root of volume returns area.
@@ -68,14 +68,14 @@ public func sqrt<Space, Scalar: FloatingPoint>(
 public func sqrt<Space, Scalar: FloatingPoint>(
     _ value: Tagged<Volume<Space>, Scalar>
 ) -> Tagged<Area<Space>, Scalar> {
-    Tagged(value.rawValue.squareRoot())
+    Tagged(__unchecked: (), value.rawValue.squareRoot())
 }
 
 extension Tagged where RawValue: FloatingPoint {
     /// The square root of this value.
     @inlinable
     public func squareRoot() -> Self {
-        Self(rawValue.squareRoot())
+        Self(__unchecked: (), rawValue.squareRoot())
     }
 }
 
@@ -91,13 +91,13 @@ extension Tagged: @retroactive Strideable where RawValue: Strideable {
 
     @inlinable
     public func advanced(by n: Stride) -> Self {
-        Self(rawValue.advanced(by: n))
+        Self(__unchecked: (), rawValue.advanced(by: n))
     }
 }
 
 extension Tagged where RawValue: BinaryFloatingPoint {
     public init<I: BinaryInteger>(_ value: I) {
-        self.init(RawValue(value))
+        self.init(__unchecked: (), RawValue(value))
     }
 }
 
@@ -110,7 +110,7 @@ extension Tagged where RawValue: SignedNumeric, RawValue.Magnitude == RawValue {
     /// Mathematically: `|x|` where the result has the same unit/type as the input.
     @inlinable
     public var magnitude: Self {
-        Self(rawValue.magnitude)
+        Self(__unchecked: (), rawValue.magnitude)
     }
 }
 
@@ -119,5 +119,5 @@ extension Tagged where RawValue: SignedNumeric, RawValue.Magnitude == RawValue {
 extension Tagged where RawValue: BinaryFloatingPoint {
     /// The mathematical constant pi (π).
     @inlinable
-    public static var pi: Self { Self(RawValue.pi) }
+    public static var pi: Self { Self(__unchecked: (), RawValue.pi) }
 }
