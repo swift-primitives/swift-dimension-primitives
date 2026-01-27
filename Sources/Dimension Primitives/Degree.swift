@@ -284,7 +284,7 @@ extension Tagged where Tag == Angle.Degree, RawValue: FloatingPoint {
 extension Tagged where Tag == Angle.Degree, RawValue: SignedNumeric {
     @inlinable
     public static prefix func - (value: Self) -> Self {
-        Self(__unchecked: (), -value.rawValue)
+        value.map { -$0 }
     }
 }
 

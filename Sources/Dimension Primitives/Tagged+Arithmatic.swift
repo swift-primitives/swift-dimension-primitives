@@ -15,7 +15,7 @@
 public func width<Space, Scalar>(
     _ dx: Displacement.X<Space>.Value<Scalar>
 ) -> Extent.X<Space>.Value<Scalar> {
-    Tagged(__unchecked: (), dx.rawValue)
+    dx.retag(Extent.X<Space>.self)
 }
 
 /// Converts a Y-displacement to a Y-extent (height).
@@ -23,7 +23,7 @@ public func width<Space, Scalar>(
 public func height<Space, Scalar>(
     _ dy: Displacement.Y<Space>.Value<Scalar>
 ) -> Extent.Y<Space>.Value<Scalar> {
-    Tagged(__unchecked: (), dy.rawValue)
+    dy.retag(Extent.Y<Space>.self)
 }
 
 /// Converts a Z-displacement to a Z-extent (depth).
@@ -31,7 +31,7 @@ public func height<Space, Scalar>(
 public func depth<Space, Scalar>(
     _ dz: Displacement.Z<Space>.Value<Scalar>
 ) -> Extent.Z<Space>.Value<Scalar> {
-    Tagged(__unchecked: (), dz.rawValue)
+    dz.retag(Extent.Z<Space>.self)
 }
 
 // MARK: - Zero
@@ -54,7 +54,7 @@ extension Tagged where RawValue: SignedNumeric {
     /// Returns the negation of this value.
     @inlinable
     public static prefix func - (value: Self) -> Self {
-        Self(__unchecked: (), -value.rawValue)
+        value.map { -$0 }
     }
 }
 
@@ -63,7 +63,7 @@ extension Tagged where RawValue: SignedNumeric {
 /// Returns the absolute value of a tagged value.
 @inlinable
 public func abs<Tag, T: SignedNumeric & Comparable>(_ x: Tagged<Tag, T>) -> Tagged<Tag, T> {
-    Tagged(__unchecked: (), abs(x.rawValue))
+    x.map { abs($0) }
 }
 
 /// Returns the minimum of two tagged values.
