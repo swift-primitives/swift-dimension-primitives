@@ -3,18 +3,20 @@
 
 // MARK: - Axis: Finite.Enumerable
 
+import Ordinal_Primitives
+
 extension Axis: Finite.Enumerable {
     /// Number of axes in N-dimensional space.
     @inlinable
-    public static var count: Int { N }
+    public static var count: Cardinal { Cardinal.init(integerLiteral: UInt(N)) }
 
     /// Ordinal of this axis (0 to N-1).
     @inlinable
-    public var ordinal: Int { rawValue }
+    public var ordinal: Ordinal { .init(UInt8(rawValue)) }
 
     /// Creates an axis from its ordinal without bounds checking.
     @inlinable
-    public init(__unchecked: Void, ordinal: Int) {
-        self.init(__unchecked: (), ordinal)
+    public init(__unchecked: Void, ordinal: Ordinal) {
+        self.init(__unchecked: (), Int(bitPattern: ordinal))
     }
 }
