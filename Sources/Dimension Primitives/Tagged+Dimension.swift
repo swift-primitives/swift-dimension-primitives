@@ -79,22 +79,6 @@ extension Tagged where RawValue: FloatingPoint {
     }
 }
 
-// MARK: - Strideable
-
-extension Tagged: @retroactive Strideable where RawValue: Strideable {
-    public typealias Stride = RawValue.Stride
-
-    @inlinable
-    public func distance(to other: Self) -> Stride {
-        rawValue.distance(to: other.rawValue)
-    }
-
-    @inlinable
-    public func advanced(by n: Stride) -> Self {
-        Self(__unchecked: (), rawValue.advanced(by: n))
-    }
-}
-
 extension Tagged where RawValue: BinaryFloatingPoint {
     public init<I: BinaryInteger>(_ value: I) {
         self.init(__unchecked: (), RawValue(value))
