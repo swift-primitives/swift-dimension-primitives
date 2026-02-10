@@ -85,6 +85,30 @@ extension Tagged where RawValue: BinaryFloatingPoint {
     }
 }
 
+// MARK: - Spatial Init
+
+extension Tagged where Tag: Spatial {
+    /// Creates a tagged spatial value by wrapping a raw value.
+    ///
+    /// For non-quantized coordinate spaces, this is a direct wrap.
+    /// When `RawValue` is `BinaryFloatingPoint`, the more specific
+    /// quantization-aware overload is selected instead.
+    @_disfavoredOverload
+    @inlinable
+    public init(_ value: RawValue) {
+        self.init(__unchecked: (), value)
+    }
+}
+
+extension Tagged where Tag: Spatial, RawValue: BinaryFloatingPoint {
+    /// Creates a tagged spatial value, quantizing to the grid when the
+    /// coordinate space conforms to `Numeric.Quantized`.
+    @inlinable
+    public init(_ value: RawValue) {
+        self = ._quantize(value, in: Tag.Space.self)
+    }
+}
+
 // MARK: - Magnitude / Absolute Value
 
 extension Tagged where RawValue: SignedNumeric, RawValue.Magnitude == RawValue {

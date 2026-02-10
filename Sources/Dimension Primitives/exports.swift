@@ -13,8 +13,8 @@
 @_exported import struct Identity_Primitives.Tagged
 @_exported import enum Numeric_Primitives.Numeric
 
-// Re-export Finite namespace for backwards compatibility
-@_exported import enum Finite_Primitives.Finite
+// Re-export Finite Primitives (includes Finite.Enumerable, Ordinal, Cardinal)
+@_exported import Finite_Primitives
 
 // Re-export Pair from Algebra Primitives
 @_exported import struct Algebra_Primitives.Pair
