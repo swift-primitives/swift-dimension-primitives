@@ -18,3 +18,4 @@
 
 // Re-export Pair from Algebra Primitives
 @_exported import struct Algebra_Primitives.Pair
+@_exported import Ordinal_Primitives
