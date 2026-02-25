@@ -1,6 +1,5 @@
 // Depth Tests.swift
 
-import Test_Primitives
 import Testing
 
 @testable import Dimension_Primitives

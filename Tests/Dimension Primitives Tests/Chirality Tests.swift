@@ -1,7 +1,6 @@
 // Chirality Tests.swift
 
 import Foundation
-import Test_Primitives
 import Testing
 
 @testable import Dimension_Primitives
