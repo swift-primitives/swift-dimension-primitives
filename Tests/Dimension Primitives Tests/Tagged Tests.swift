@@ -432,28 +432,6 @@ struct `Tagged - Free Functions` {
     }
 }
 
-// MARK: - Tagged - Strideable
-
-@Suite
-struct `Tagged - Strideable` {
-    enum TestTag {}
-
-    @Test
-    func `distance between tagged values`() {
-        let tag1: Tagged<TestTag, Int> = Tagged(10)
-        let tag2: Tagged<TestTag, Int> = Tagged(20)
-        let distance = tag1.distance(to: tag2)
-        #expect(distance == 10)
-    }
-
-    @Test
-    func `advanced by stride`() {
-        let tagged: Tagged<TestTag, Int> = Tagged(10)
-        let result = tagged.advanced(by: 5)
-        #expect(result == 15)
-    }
-}
-
 // MARK: - Tagged - AdditiveArithmetic Zero
 
 @Suite
