@@ -3,6 +3,7 @@
 import Testing
 
 @testable import Dimension_Primitives
+import Dimension_Primitives_Test_Support
 
 // MARK: - Axis - Static Functions
 
@@ -37,7 +38,7 @@ struct `Axis - Properties` {
 
     @Test(arguments: [0, 1, 2, 3])
     func `rawValue accessor`(value: Int) {
-        let axis: Axis<5>? = Axis(value)
+        let axis: Axis<5>? = try? Axis(value)
         #expect(axis?.rawValue == value)
     }
 }
@@ -48,20 +49,20 @@ struct `Axis - Properties` {
 struct `Axis - Initializers` {
     @Test(arguments: [0, 1, 2, 3, 4])
     func `init with valid rawValue`(value: Int) {
-        let axis: Axis<5>? = Axis(value)
+        let axis: Axis<5>? = try? Axis(value)
         #expect(axis != nil)
         #expect(axis?.rawValue == value)
     }
 
     @Test(arguments: [-1, 5, 10])
     func `init with invalid rawValue returns nil`(value: Int) {
-        let axis: Axis<5>? = Axis(value)
+        let axis: Axis<5>? = try? Axis(value)
         #expect(axis == nil)
     }
 
     @Test(arguments: [0, 1, 2])
     func `init from valid rawValue succeeds`(value: Int) {
-        let axis: Axis<5>? = Axis(value)
+        let axis: Axis<5>? = try? Axis(value)
         #expect(axis != nil)
         #expect(axis?.rawValue == value)
     }
@@ -176,7 +177,7 @@ struct `Axis - Enumerable Conformance` {
     @Test
     func `ordinal matches rawValue`() {
         let axis: Axis<3> = .tertiary
-        #expect(axis.ordinal == axis.rawValue)
+        #expect(axis.rawValue == 2)
         #expect(axis.ordinal == 2)
     }
 }

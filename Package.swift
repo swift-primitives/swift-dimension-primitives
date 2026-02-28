@@ -15,6 +15,10 @@ let package = Package(
         .library(
             name: "Dimension Primitives",
             targets: ["Dimension Primitives"]
+        ),
+        .library(
+            name: "Dimension Primitives Test Support",
+            targets: ["Dimension Primitives Test Support"]
         )
     ],
     dependencies: [
@@ -34,10 +38,19 @@ let package = Package(
                 .product(name: "Formatting Primitives", package: "swift-formatting-primitives")
             ]
         ),
+        .target(
+            name: "Dimension Primitives Test Support",
+            dependencies: [
+                "Dimension Primitives",
+                .product(name: "Finite Primitives Test Support", package: "swift-finite-primitives"),
+            ],
+            path: "Tests/Support"
+        ),
         .testTarget(
             name: "Dimension Primitives Tests",
             dependencies: [
                 "Dimension Primitives",
+                "Dimension Primitives Test Support",
             ]
         ),
     ],

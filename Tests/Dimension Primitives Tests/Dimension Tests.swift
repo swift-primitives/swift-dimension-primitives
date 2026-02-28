@@ -3,6 +3,7 @@
 import Testing
 
 @testable import Dimension_Primitives
+import Dimension_Primitives_Test_Support
 
 // MARK: - Dimension Phantom Types
 

@@ -3,6 +3,7 @@
 import Testing
 
 @testable import Dimension_Primitives
+import Dimension_Primitives_Test_Support
 
 // MARK: - Axis+CaseIterable - Enumerable Conformance
 
@@ -16,24 +17,29 @@ struct `Axis+CaseIterable - Enumerable` {
         #expect(Axis<4>.count == 4)
     }
 
-    @Test(arguments: [Axis<3>.primary, Axis<3>.secondary, Axis<3>.tertiary])
-    func `ordinal matches rawValue`(axis: Axis<3>) {
-        #expect(axis.ordinal == axis.rawValue)
+    @Test
+    func `ordinal matches rawValue`() {
+        #expect(Axis<3>.primary.rawValue == 0)
+        #expect(Axis<3>.primary.ordinal == 0)
+        #expect(Axis<3>.secondary.rawValue == 1)
+        #expect(Axis<3>.secondary.ordinal == 1)
+        #expect(Axis<3>.tertiary.rawValue == 2)
+        #expect(Axis<3>.tertiary.ordinal == 2)
     }
 
     @Test(arguments: [0, 1, 2])
     func `init from ordinal creates correct axis`(ordinal: Int) {
-        let axis: Axis<3>? = Axis(ordinal)
+        let axis: Axis<3>? = try? Axis(ordinal)
         #expect(axis != nil)
         #expect(axis?.rawValue == ordinal)
     }
 
     @Test(arguments: [0, 1, 2, 3])
     func `ordinal roundtrip`(ordinal: Int) {
-        let axis: Axis<4>? = Axis(ordinal)
+        let axis: Axis<4>? = try? Axis(ordinal)
         #expect(axis != nil)
-        #expect(axis?.ordinal == ordinal)
-        let reconstructed: Axis<4>? = Axis(axis!.ordinal)
+        #expect(axis?.rawValue == ordinal)
+        let reconstructed: Axis<4>? = try? Axis(axis!.rawValue)
         #expect(reconstructed?.rawValue == axis?.rawValue)
     }
 }
