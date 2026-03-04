@@ -103,8 +103,7 @@ extension Angle.Radian {
         /// Radian<Double>.pi.fraction<3, 4>()()  // 3π/4
         /// ```
         @inlinable
-        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator>
-        where Scalar: Sendable {
+        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator> {
             .init(Radian(__unchecked: (), .pi * Scalar(Numerator) / Scalar(Denominator)))
         }
     }

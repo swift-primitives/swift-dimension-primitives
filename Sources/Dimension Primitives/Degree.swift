@@ -156,8 +156,7 @@ extension Angle.Degree {
         /// Degree<Double>.right.fraction<1, 6>()()  // 15°
         /// ```
         @inlinable
-        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator>
-        where Scalar: Sendable {
+        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator> {
             .init(Degree(__unchecked: (), 90 * Scalar(Numerator) / Scalar(Denominator)))
         }
     }
@@ -192,8 +191,7 @@ extension Angle.Degree {
 
         /// Access arbitrary fraction of 180° with compile-time integer parameters.
         @inlinable
-        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator>
-        where Scalar: Sendable {
+        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator> {
             .init(Degree(__unchecked: (), 180 * Scalar(Numerator) / Scalar(Denominator)))
         }
     }
@@ -237,8 +235,7 @@ extension Angle.Degree {
         /// Degree<Double>.full.fraction<5, 6>()()   // 300°
         /// ```
         @inlinable
-        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator>
-        where Scalar: Sendable {
+        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator> {
             .init(Degree(__unchecked: (), 360 * Scalar(Numerator) / Scalar(Denominator)))
         }
     }
