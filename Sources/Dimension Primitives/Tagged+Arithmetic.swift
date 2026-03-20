@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  swift-standards
+//  Tagged+Arithmetic.swift
+//  swift-dimension-primitives
 //
 //  Created by Coen ten Thije Boonkkamp on 13/12/2025.
 //

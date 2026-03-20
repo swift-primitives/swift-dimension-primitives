@@ -37,18 +37,6 @@ extension Tagged where Tag == Angle.Radian, RawValue: BinaryFloatingPoint {
     /// π radians (180°)
     @inlinable
     public static var pi: Angle.Radian.Pi<RawValue> { .init() }
-
-    /// π/2 radians (90°)
-    @inlinable
-    public static var halfPi: Self { Self(__unchecked: (), .pi / 2) }
-
-    /// 2π radians (360°)
-    @inlinable
-    public static var twoPi: Self { Self(__unchecked: (), .pi * 2) }
-
-    /// π/4 radians (45°)
-    @inlinable
-    public static var quarterPi: Self { Self(__unchecked: (), .pi / 4) }
 }
 
 // MARK: - Pi Accessor

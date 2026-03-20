@@ -66,53 +66,9 @@ extension Tagged where Tag == Angle.Degree, RawValue: BinaryFloatingPoint {
     public static var full: Angle.Degree.Full<RawValue> { .init() }
 }
 
-// MARK: - Double
+// MARK: - Named Constants
 
-extension Tagged where Tag == Angle.Degree, RawValue == Double {
-    /// Right angle (90°)
-    @inlinable
-    public static var rightAngle: Self { Self(__unchecked: (), 90) }
-
-    /// Straight angle (180°)
-    @inlinable
-    public static var straightAngle: Self { Self(__unchecked: (), 180) }
-
-    /// Full circle (360°)
-    @inlinable
-    public static var fullCircle: Self { Self(__unchecked: (), 360) }
-
-    /// Forty-five degrees (45°)
-    @inlinable
-    public static var fortyFive: Self { Self(__unchecked: (), 45) }
-
-    /// Sixty degrees (60°)
-    @inlinable
-    public static var sixty: Self { Self(__unchecked: (), 60) }
-
-    /// Thirty degrees (30°)
-    @inlinable
-    public static var thirty: Self { Self(__unchecked: (), 30) }
-}
-
-// MARK: - Float
-
-extension Tagged where Tag == Angle.Degree, RawValue == Float {
-    /// Right angle (90°)
-    @inlinable
-    public static var rightAngle: Self { Self(__unchecked: (), 90) }
-
-    /// Straight angle (180°)
-    @inlinable
-    public static var straightAngle: Self { Self(__unchecked: (), 180) }
-
-    /// Full circle (360°)
-    @inlinable
-    public static var fullCircle: Self { Self(__unchecked: (), 360) }
-
-    /// Forty-five degrees (45°)
-    @inlinable
-    public static var fortyFive: Self { Self(__unchecked: (), 45) }
-
+extension Tagged where Tag == Angle.Degree, RawValue: BinaryFloatingPoint {
     /// Sixty degrees (60°)
     @inlinable
     public static var sixty: Self { Self(__unchecked: (), 60) }
