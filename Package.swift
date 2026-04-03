@@ -33,7 +33,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Finite Primitives", package: "swift-finite-primitives"),
                 .product(name: "Identity Primitives", package: "swift-identity-primitives"),
-                .product(name: "Numeric Primitives", package: "swift-numeric-primitives"),
+                .product(name: "Numeric Primitives Core", package: "swift-numeric-primitives"),
                 .product(name: "Real Primitives", package: "swift-numeric-primitives"),
                 .product(name: "Formatting Primitives", package: "swift-formatting-primitives")
             ]

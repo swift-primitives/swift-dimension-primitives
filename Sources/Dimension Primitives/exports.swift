@@ -11,7 +11,7 @@
 
 // Re-export Tagged from Identity Primitives so consumers don't need to import separately
 @_exported import struct Identity_Primitives.Tagged
-@_exported import enum Numeric_Primitives.Numeric
+@_exported import enum Numeric_Primitives_Core.Numeric
 
 // Re-export Finite Primitives (includes Finite.Enumerable, Ordinal, Cardinal)
 @_exported import Finite_Primitives

@@ -1,7 +1,7 @@
 // Tagged+Quantized.swift
 // Quantization support and affine arithmetic for Tagged types.
 
-import Numeric_Primitives
+import Numeric_Primitives_Core
 
 // MARK: - Canonical Quantization
 
