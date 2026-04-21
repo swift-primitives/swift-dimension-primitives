@@ -25,7 +25,7 @@ let package = Package(
         .package(path: "../swift-finite-primitives"),
         .package(path: "../swift-identity-primitives"),
         .package(path: "../swift-numeric-primitives"),
-        .package(path: "../swift-formatting-primitives")
+        .package(path: "../swift-format-primitives")
     ],
     targets: [
         .target(
@@ -35,7 +35,7 @@ let package = Package(
                 .product(name: "Identity Primitives", package: "swift-identity-primitives"),
                 .product(name: "Numeric Primitives Core", package: "swift-numeric-primitives"),
                 .product(name: "Real Primitives", package: "swift-numeric-primitives"),
-                .product(name: "Formatting Primitives", package: "swift-formatting-primitives")
+                .product(name: "Format Primitives", package: "swift-format-primitives")
             ]
         ),
         .target(
