@@ -11,7 +11,7 @@
 
 // Numeric and algebraic extensions for Tagged types used in dimensional analysis.
 
-import Identity_Primitives
+import Tagged_Primitives
 
 // MARK: - FloatingPoint Properties
 
