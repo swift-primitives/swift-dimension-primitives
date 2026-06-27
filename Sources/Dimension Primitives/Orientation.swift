@@ -1,6 +1,8 @@
 // Orientation.swift
 // The abstract theory of binary orientation.
 
+public import Direction_Primitive
+
 /// A binary type with exactly two opposite values.
 ///
 /// `Orientation` represents any type with two mutually opposite states: `Direction`, `Horizontal`, `Vertical`, `Depth`, and `Temporal` all conform. Mathematically, any orientation type is isomorphic to Bool, Z/2Z, or the multiplicative group {-1, +1}.
@@ -80,5 +82,6 @@ extension Orientation {
 public typealias Oriented<O: Orientation, Scalar> = Pair<O, Scalar>
 
 extension Orientation {
+    /// This orientation paired with a scalar payload.
     public typealias Value<Scalar> = Oriented<Self, Scalar>
 }

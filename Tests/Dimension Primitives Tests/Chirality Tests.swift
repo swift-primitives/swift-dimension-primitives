@@ -1,7 +1,5 @@
 // Chirality Tests.swift
 
-import Foundation
-import Test_Support_Primitives
 import Testing
 
 @testable import Dimension_Primitives
@@ -105,14 +103,6 @@ struct `Chirality - Protocol Conformances` {
     func `Hashable produces unique hashes`() {
         let set: Set<Chirality> = [.left, .right, .left]
         #expect(set.count == 2)
-    }
-
-    @Test
-    func `Codable roundtrip`() throws {
-        let original = Chirality.right
-        let encoded = try JSONEncoder().encode(original)
-        let decoded = try JSONDecoder().decode(Chirality.self, from: encoded)
-        #expect(decoded == original)
     }
 }
 

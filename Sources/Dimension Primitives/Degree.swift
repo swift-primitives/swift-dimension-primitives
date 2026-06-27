@@ -1,7 +1,7 @@
 // Degree.swift
 // An angle measured in degrees, implemented as a Tagged type.
 
-public import RealModule
+public import Real_Primitives
 
 /// An angle measured in degrees (1/360 of a full rotation).
 ///
@@ -12,51 +12,244 @@ public import RealModule
 /// ## Example
 ///
 /// ```swift
-/// let rightAngle = Degree(90)
+/// let rightAngle = Degree(_unchecked: 90)
 /// print(rightAngle.radians)         // Radian(π/2)
 /// print(rightAngle.sin)             // 1.0
 ///
 /// // Arithmetic operations
-/// let rotation = rightAngle * 2     // Degree(180)
-/// let half = rightAngle / 2         // Degree(45)
+/// let rotation = rightAngle * 2     // Degree(_unchecked: 180)
+/// let half = rightAngle / 2         // Degree(_unchecked: 45)
+///
+/// // Accessor patterns
+/// let right = Degree<Double>.right.full      // 90°
+/// let half45 = Degree<Double>.right.half     // 45°
+/// let custom = Degree<Double>.full.fraction<1, 12>()()  // 30°
 /// ```
 public typealias Degree<Scalar> = Angle.Degree.Value<Scalar>
 
 // MARK: - Common Angles
 
-extension Tagged where Tag == Angle.Degree, RawValue: Real {
-    /// Zero degrees
+extension Tagged where Tag == Angle.Degree, Underlying: BinaryFloatingPoint {
+    /// Zero degrees.
     @inlinable
-    public static var zero: Self { Self(0) }
+    public static var zero: Self { Self(_unchecked: 0) }
 
-    /// Right angle (90°)
+    /// Access right angle (90°) based values.
+    ///
+    /// ```swift
+    /// Degree<Double>.right.full              // 90°
+    /// Degree<Double>.right.half              // 45°
+    /// Degree<Double>.right.third             // 30°
+    /// Degree<Double>.right.fraction<2, 3>()  // 60°
+    /// ```
     @inlinable
-    public static var rightAngle: Self { Self(90) }
+    public static var right: Angle.Degree.Right<Underlying> { .init() }
 
-    /// Straight angle (180°)
+    /// Access straight angle (180°) based values.
+    ///
+    /// ```swift
+    /// Degree<Double>.straight.full           // 180°
+    /// Degree<Double>.straight.half           // 90°
+    /// ```
     @inlinable
-    public static var straight: Self { Self(180) }
+    public static var straight: Angle.Degree.Straight<Underlying> { .init() }
 
-    /// Full circle (360°)
+    /// Access full rotation (360°) based values.
+    ///
+    /// ```swift
+    /// Degree<Double>.full.full               // 360°
+    /// Degree<Double>.full.half               // 180°
+    /// Degree<Double>.full.third              // 120°
+    /// Degree<Double>.full.fraction<1, 12>()  // 30°
+    /// ```
     @inlinable
-    public static var fullCircle: Self { Self(360) }
+    public static var full: Angle.Degree.Full<Underlying> { .init() }
+}
 
-    /// Forty-five degrees (45°)
-    @inlinable
-    public static var fortyFive: Self { Self(45) }
+// MARK: - Named Constants
 
-    /// Sixty degrees (60°)
+extension Tagged where Tag == Angle.Degree, Underlying: BinaryFloatingPoint {
+    /// Sixty degrees (60°).
     @inlinable
-    public static var sixty: Self { Self(60) }
+    public static var sixty: Self { Self(_unchecked: 60) }
 
-    /// Thirty degrees (30°)
+    /// Thirty degrees (30°).
     @inlinable
-    public static var thirty: Self { Self(30) }
+    public static var thirty: Self { Self(_unchecked: 30) }
+}
+
+// MARK: - Right Angle Accessor (90°)
+
+extension Angle.Degree {
+    /// Accessor for right angle (90°) based values with compile-time fraction support.
+    public struct Right<Scalar: BinaryFloatingPoint>: Sendable {
+        @usableFromInline
+        internal init() {}
+
+        /// 90 degrees (a right angle).
+        @inlinable
+        public var full: Degree<Scalar> { Degree(_unchecked: 90) }
+
+        /// 45 degrees (half a right angle).
+        @inlinable
+        public var half: Degree<Scalar> { Degree(_unchecked: 45) }
+
+        /// 30 degrees (a third of a right angle).
+        @inlinable
+        public var third: Degree<Scalar> { Degree(_unchecked: 30) }
+
+        /// 22.5 degrees (a quarter of a right angle).
+        @inlinable
+        public var quarter: Degree<Scalar> { Degree(_unchecked: 22.5) }
+
+        /// Typealias for compile-time fraction of 90°.
+        public typealias Fraction<let Numerator: Int, let Denominator: Int> = Numeric.Fraction<Numerator, Denominator, Degree<Scalar>>
+
+        /// Access arbitrary fraction of 90° with compile-time integer parameters.
+        ///
+        /// ```swift
+        /// Degree<Double>.right.fraction<2, 3>()()  // 60°
+        /// Degree<Double>.right.fraction<1, 6>()()  // 15°
+        /// ```
+        @inlinable
+        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator> {
+            .init(Degree(_unchecked: 90 * Scalar(Numerator) / Scalar(Denominator)))
+        }
+    }
+}
+
+// MARK: - Straight Angle Accessor (180°)
+
+extension Angle.Degree {
+    /// Accessor for straight angle (180°) based values with compile-time fraction support.
+    public struct Straight<Scalar: BinaryFloatingPoint>: Sendable {
+        @usableFromInline
+        internal init() {}
+
+        /// 180 degrees (a straight angle).
+        @inlinable
+        public var full: Degree<Scalar> { Degree(_unchecked: 180) }
+
+        /// 90 degrees (half a straight angle).
+        @inlinable
+        public var half: Degree<Scalar> { Degree(_unchecked: 90) }
+
+        /// 60 degrees (a third of a straight angle).
+        @inlinable
+        public var third: Degree<Scalar> { Degree(_unchecked: 60) }
+
+        /// 45 degrees (a quarter of a straight angle).
+        @inlinable
+        public var quarter: Degree<Scalar> { Degree(_unchecked: 45) }
+
+        /// Typealias for compile-time fraction of 180°.
+        public typealias Fraction<let Numerator: Int, let Denominator: Int> = Numeric.Fraction<Numerator, Denominator, Degree<Scalar>>
+
+        /// Access arbitrary fraction of 180° with compile-time integer parameters.
+        @inlinable
+        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator> {
+            .init(Degree(_unchecked: 180 * Scalar(Numerator) / Scalar(Denominator)))
+        }
+    }
+}
+
+// MARK: - Full Rotation Accessor (360°)
+
+extension Angle.Degree {
+    /// Accessor for full rotation (360°) based values with compile-time fraction support.
+    public struct Full<Scalar: BinaryFloatingPoint>: Sendable {
+        @usableFromInline
+        internal init() {}
+
+        /// 360 degrees (a full rotation).
+        @inlinable
+        public var full: Degree<Scalar> { Degree(_unchecked: 360) }
+
+        /// 180 degrees (half a rotation).
+        @inlinable
+        public var half: Degree<Scalar> { Degree(_unchecked: 180) }
+
+        /// 120 degrees (a third of a rotation).
+        @inlinable
+        public var third: Degree<Scalar> { Degree(_unchecked: 120) }
+
+        /// 90 degrees (a quarter of a rotation).
+        @inlinable
+        public var quarter: Degree<Scalar> { Degree(_unchecked: 90) }
+
+        /// 60 degrees (a sixth of a rotation).
+        @inlinable
+        public var sixth: Degree<Scalar> { Degree(_unchecked: 60) }
+
+        /// Typealias for compile-time fraction of 360°.
+        public typealias Fraction<let Numerator: Int, let Denominator: Int> = Numeric.Fraction<Numerator, Denominator, Degree<Scalar>>
+
+        /// Access arbitrary fraction of 360° with compile-time integer parameters.
+        ///
+        /// ```swift
+        /// Degree<Double>.full.fraction<1, 12>()()  // 30°
+        /// Degree<Double>.full.fraction<5, 6>()()   // 300°
+        /// ```
+        @inlinable
+        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator> {
+            .init(Degree(_unchecked: 360 * Scalar(Numerator) / Scalar(Denominator)))
+        }
+    }
+}
+
+// MARK: - Arithmetic
+
+extension Tagged where Tag == Angle.Degree, Underlying: AdditiveArithmetic {
+    /// Adds two degree angles.
+    @inlinable
+    public static func + (lhs: Self, rhs: Self) -> Self {
+        Self(_unchecked: lhs.underlying + rhs.underlying)
+    }
+
+    /// Subtracts one degree angle from another.
+    @inlinable
+    public static func - (lhs: Self, rhs: Self) -> Self {
+        Self(_unchecked: lhs.underlying - rhs.underlying)
+    }
+}
+
+extension Tagged where Tag == Angle.Degree, Underlying: Swift.Numeric {
+    /// Scales a degree angle by a scalar factor.
+    @_disfavoredOverload
+    @inlinable
+    public static func * (lhs: Self, rhs: Underlying) -> Self {
+        Self(_unchecked: lhs.underlying * rhs)
+    }
+
+    /// Scales a degree angle by a scalar factor (commutative).
+    @_disfavoredOverload
+    @inlinable
+    public static func * (lhs: Underlying, rhs: Self) -> Self {
+        Self(_unchecked: lhs * rhs.underlying)
+    }
+}
+
+extension Tagged where Tag == Angle.Degree, Underlying: FloatingPoint {
+    /// Divides a degree angle by a scalar factor.
+    @inlinable
+    public static func / (lhs: Self, rhs: Underlying) -> Self {
+        Self(_unchecked: lhs.underlying / rhs)
+    }
+}
+
+// MARK: - Negation
+
+extension Tagged where Tag == Angle.Degree, Underlying: SignedNumeric {
+    /// Returns the negation of a degree angle.
+    @inlinable
+    public static prefix func - (value: Self) -> Self {
+        value.map { -$0 }
+    }
 }
 
 // MARK: - Conversion
 
-extension Tagged where Tag == Angle.Degree, RawValue: BinaryFloatingPoint {
+extension Tagged where Tag == Angle.Degree, Underlying: BinaryFloatingPoint {
     /// Creates a degree angle from radians.
     ///
     /// ## Example
@@ -66,38 +259,56 @@ extension Tagged where Tag == Angle.Degree, RawValue: BinaryFloatingPoint {
     /// let deg = Degree(radians: rad)  // Degree(90.0)
     /// ```
     @inlinable
-    public init(radians: Radian<RawValue>) {
-        self.init(radians.rawValue * 180 / .pi)
+    public init(radians: Radian<Underlying>) {
+        self.init(_unchecked: radians.underlying * 180 / .pi)
     }
 }
 
-extension Tagged where Tag == Angle.Degree, RawValue: BinaryFloatingPoint {
+extension Tagged where Tag == Angle.Degree, Underlying: BinaryFloatingPoint {
     /// Converts to radians.
     ///
     /// ## Example
     ///
     /// ```swift
-    /// let deg = Degree(180)
+    /// let deg = Degree(_unchecked: 180)
     /// print(deg.radians)  // Radian(π)
     /// ```
     @inlinable
-    public var radians: Radian<RawValue> {
+    public var radians: Radian<Underlying> {
         Radian(degrees: self)
     }
 }
 
 // MARK: - Trigonometry (via Radians)
 
-extension Tagged where Tag == Angle.Degree, RawValue: Real & BinaryFloatingPoint {
+// MARK: Double
+
+extension Tagged where Tag == Angle.Degree, Underlying == Double {
     /// Sine of the angle.
     @inlinable
-    public var sin: Scale<1, RawValue> { radians.sin }
+    public var sin: Scale<1, Underlying> { radians.sin }
 
     /// Cosine of the angle.
     @inlinable
-    public var cos: Scale<1, RawValue> { radians.cos }
+    public var cos: Scale<1, Underlying> { radians.cos }
 
     /// Tangent of the angle.
     @inlinable
-    public var tan: Scale<1, RawValue> { radians.tan }
+    public var tan: Scale<1, Underlying> { radians.tan }
+}
+
+// MARK: Float
+
+extension Tagged where Tag == Angle.Degree, Underlying == Float {
+    /// Sine of the angle.
+    @inlinable
+    public var sin: Scale<1, Underlying> { radians.sin }
+
+    /// Cosine of the angle.
+    @inlinable
+    public var cos: Scale<1, Underlying> { radians.cos }
+
+    /// Tangent of the angle.
+    @inlinable
+    public var tan: Scale<1, Underlying> { radians.tan }
 }

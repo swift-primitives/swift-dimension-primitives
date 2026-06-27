@@ -1,6 +1,7 @@
 // Axis.Depth Tests.swift
 
-import Test_Support_Primitives
+import Axis_Primitive
+import Direction_Primitive
 import Testing
 
 @testable import Dimension_Primitives
@@ -9,29 +10,33 @@ import Testing
 
 @Suite
 struct `Axis.Depth - 3D Typealias` {
+    // The `Axis<N>.*` orientation typealiases are referenced in expression position
+    // only. A named local typed as the sugared value-generic typealias —
+    // `let d: Axis<3>.Depth = …` — crashes the +Asserts debug-info mangler
+    // (getMangledName / IRGenDebugInfo.cpp:1098). See swift-compiler-bug-catalog §A21.
+
     @Test
     func `Axis3 Depth is identical to Depth`() {
-        let axisDepth: Axis<3>.Depth = .backward
-        let depth: Depth = .backward
-
-        #expect(axisDepth == depth)
-        #expect(axisDepth.opposite == depth.opposite)
+        #expect(Axis<3>.Depth.backward == Depth.backward)
+        #expect(Axis<3>.Depth.backward.opposite == Depth.backward.opposite)
     }
 
-    @Test(arguments: [Depth.forward, Depth.backward])
-    func `All Depth functionality available via Axis3 Depth`(depth: Depth) {
-        let axisDepth: Axis<3>.Depth = depth
-
-        #expect(axisDepth.direction == depth.direction)
-        #expect(axisDepth.opposite == depth.opposite)
-        #expect(axisDepth.isForward == depth.isForward)
-        #expect(axisDepth.isBackward == depth.isBackward)
+    @Test
+    func `All Depth functionality available via Axis3 Depth`() {
+        #expect(Axis<3>.Depth.forward.direction == Depth.forward.direction)
+        #expect(Axis<3>.Depth.forward.opposite == Depth.forward.opposite)
+        #expect(Axis<3>.Depth.forward.isForward == Depth.forward.isForward)
+        #expect(Axis<3>.Depth.forward.isBackward == Depth.forward.isBackward)
+        #expect(Axis<3>.Depth.backward.direction == Depth.backward.direction)
+        #expect(Axis<3>.Depth.backward.opposite == Depth.backward.opposite)
+        #expect(Axis<3>.Depth.backward.isForward == Depth.backward.isForward)
+        #expect(Axis<3>.Depth.backward.isBackward == Depth.backward.isBackward)
     }
 
     @Test
     func `Depth available for 3D`() {
-        // Compile-time verification that typealias exists
-        let _: Axis<3>.Depth = .forward
+        // Compile-time verification that the Axis<3>.Depth typealias exists.
+        _ = Axis<3>.Depth.forward
     }
 }
 

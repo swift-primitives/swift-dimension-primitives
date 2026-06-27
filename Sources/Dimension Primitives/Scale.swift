@@ -30,6 +30,7 @@ extension Scale: Sendable where Scalar: Sendable {}
 // MARK: - Equatable
 
 extension Scale: Equatable where Scalar: FloatingPoint {
+    /// Returns whether two scales have equal factors in every dimension.
     @inlinable
     public static func == (lhs: Self, rhs: Self) -> Bool {
         for i in 0..<N {
@@ -42,6 +43,7 @@ extension Scale: Equatable where Scalar: FloatingPoint {
 // MARK: - Hashable
 
 extension Scale: Hashable where Scalar: Hashable & FloatingPoint {
+    /// Hashes the scale's factors into the given hasher.
     @inlinable
     public func hash(into hasher: inout Hasher) {
         for i in 0..<N {
@@ -53,6 +55,7 @@ extension Scale: Hashable where Scalar: Hashable & FloatingPoint {
 // MARK: - Comparable (1D only)
 
 extension Scale: Comparable where N == 1, Scalar: FloatingPoint {
+    /// Returns whether one 1D scale factor is less than another.
     @inlinable
     public static func < (lhs: Self, rhs: Self) -> Bool {
         lhs.value < rhs.value
@@ -63,6 +66,12 @@ extension Scale: Comparable where N == 1, Scalar: FloatingPoint {
 
 #if !hasFeature(Embedded)
     extension Scale: Codable where Scalar: Codable, Scalar: FloatingPoint {
+        // swiftlint:disable no_any_protocol_existential typed_throws_required
+        // reason: Codable witnesses — `init(from: any Decoder) throws` and
+        // `encode(to: any Encoder) throws` are stdlib-protocol-mandated signatures;
+        // neither typed throws nor a concrete (non-`any`) parameter is expressible
+        // (the no_any_protocol_existential rule message sanctions this opt-out).
+        /// Decodes a scale from an unkeyed container of per-dimension factors.
         public init(from decoder: any Decoder) throws {
             var container = try decoder.unkeyedContainer()
             var factors = InlineArray<N, Scalar>(repeating: .zero)
@@ -72,12 +81,14 @@ extension Scale: Comparable where N == 1, Scalar: FloatingPoint {
             self.init(factors)
         }
 
+        /// Encodes the scale's factors into an unkeyed container.
         public func encode(to encoder: any Encoder) throws {
             var container = encoder.unkeyedContainer()
             for i in 0..<N {
                 try container.encode(factors[i])
             }
         }
+        // swiftlint:enable no_any_protocol_existential typed_throws_required
     }
 #endif
 
@@ -138,7 +149,9 @@ extension Scale where N == 1, Scalar: FloatingPoint {
         self.init([value])
     }
 
+    /// Creates a 1D scale from a percentage (100 corresponds to identity).
     public static func percent(_ value: Scalar) -> Self { Self(value / 100) }
+    /// The scale factor expressed as a percentage (identity is 100).
     public var percent: Scalar { value * 100 }
 }
 
@@ -255,8 +268,10 @@ extension Scale where Scalar: FloatingPoint {
 
 extension Scale: ExpressibleByFloatLiteral
 where N == 1, Scalar: ExpressibleByFloatLiteral & FloatingPoint {
+    /// The float-literal type used to express a 1D scale.
     public typealias FloatLiteralType = Scalar.FloatLiteralType
 
+    /// Creates a 1D scale from a float literal.
     @inlinable
     public init(floatLiteral value: FloatLiteralType) {
         self.init(Scalar(floatLiteral: value))
@@ -265,8 +280,10 @@ where N == 1, Scalar: ExpressibleByFloatLiteral & FloatingPoint {
 
 extension Scale: ExpressibleByIntegerLiteral
 where N == 1, Scalar: ExpressibleByIntegerLiteral & FloatingPoint {
+    /// The integer-literal type used to express a 1D scale.
     public typealias IntegerLiteralType = Scalar.IntegerLiteralType
 
+    /// Creates a 1D scale from an integer literal.
     @inlinable
     public init(integerLiteral value: IntegerLiteralType) {
         self.init(Scalar(integerLiteral: value))

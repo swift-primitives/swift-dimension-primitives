@@ -6,11 +6,12 @@
 //
 
 @_spi(Internal) import Dimension_Primitives
+import Numeric_Primitives_Core
 import Testing
 
 // MARK: - Test Space
 
-private enum TestSpace: Quantized {
+private enum TestSpace: Numeric.Quantized {
     typealias Scalar = Double
     static var quantum: Double { 0.01 }
 }
@@ -47,7 +48,7 @@ struct `Tagged+Quantized` {
             let x1 = QX(ticks: 14940)
             let x2 = QX(ticks: 14940)
             #expect(x1 == x2)
-            #expect(x1._rawValue.bitPattern == x2._rawValue.bitPattern)
+            #expect(x1.underlying.bitPattern == x2.underlying.bitPattern)
         }
     }
 
@@ -190,7 +191,7 @@ struct `Tagged+Quantized` {
             let direct = start + total
 
             // Same tick means identical IEEE 754 bits
-            #expect(accumulated._rawValue.bitPattern == direct._rawValue.bitPattern)
+            #expect(accumulated.underlying.bitPattern == direct.underlying.bitPattern)
         }
     }
 }

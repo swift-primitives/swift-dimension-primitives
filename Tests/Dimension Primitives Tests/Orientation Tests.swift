@@ -1,5 +1,6 @@
 // Orientation Tests.swift
 
+import Direction_Primitive
 import Testing
 
 @testable import Dimension_Primitives

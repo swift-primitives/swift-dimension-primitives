@@ -1,6 +1,8 @@
 // Horizontal.swift
 // Horizontal (X) axis orientation and oriented values.
 
+public import Direction_Primitive
+
 /// X-axis orientation: rightward or leftward.
 ///
 /// `Horizontal` specifies which direction along the X-axis is considered positive. Use it to express coordinate system conventions (rightward is standard) or to pair scalar values with explicit horizontal direction via `Horizontal.Value<T>`.
@@ -58,7 +60,7 @@ extension Horizontal: Orientation {
     /// Returns the opposite orientation.
     @inlinable
     public var opposite: Horizontal {
-        Horizontal.opposite(of: self)
+        Self.opposite(of: self)
     }
 
     /// All horizontal orientations.
@@ -80,6 +82,7 @@ extension Horizontal {
 // MARK: - CustomStringConvertible
 
 extension Horizontal: CustomStringConvertible {
+    /// A textual representation of the orientation ("rightward" or "leftward").
     public var description: String {
         switch self {
         case .rightward: return "rightward"
@@ -91,5 +94,5 @@ extension Horizontal: CustomStringConvertible {
 // MARK: - Codable
 
 #if !hasFeature(Embedded)
-extension Horizontal: Codable {}
+    extension Horizontal: Codable {}
 #endif

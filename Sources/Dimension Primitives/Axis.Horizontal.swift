@@ -1,6 +1,8 @@
 // Axis.Horizontal.swift
 // Typealias for horizontal orientation on 2D+ axes.
 
+public import Axis_Primitive
+
 extension Axis where N == 2 {
     /// X-axis orientation convention.
     public typealias Horizontal = Dimension_Primitives.Horizontal

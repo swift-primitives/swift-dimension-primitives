@@ -1,6 +1,8 @@
 // Temporal.swift
 // Temporal (W/T) axis orientation and oriented values.
 
+public import Direction_Primitive
+
 /// Time-axis orientation: future or past.
 ///
 /// `Temporal` specifies which direction along the time axis is considered positive. Use it in spacetime physics (Minkowski space) or 4D graphics where the fourth coordinate represents time.
@@ -59,7 +61,7 @@ extension Temporal: Orientation {
     /// Returns the opposite orientation.
     @inlinable
     public var opposite: Temporal {
-        Temporal.opposite(of: self)
+        Self.opposite(of: self)
     }
 
     /// All temporal orientations.
@@ -81,6 +83,7 @@ extension Temporal {
 // MARK: - CustomStringConvertible
 
 extension Temporal: CustomStringConvertible {
+    /// A textual representation of the orientation ("future" or "past").
     public var description: String {
         switch self {
         case .future: return "future"
@@ -92,5 +95,5 @@ extension Temporal: CustomStringConvertible {
 // MARK: - Codable
 
 #if !hasFeature(Embedded)
-extension Temporal: Codable {}
+    extension Temporal: Codable {}
 #endif

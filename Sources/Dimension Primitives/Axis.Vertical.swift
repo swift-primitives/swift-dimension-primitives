@@ -1,6 +1,8 @@
 // Axis.Vertical.swift
 // Typealias for vertical orientation on 2D+ axes.
 
+public import Axis_Primitive
+
 extension Axis where N == 2 {
     /// Y-axis orientation convention.
     public typealias Vertical = Dimension_Primitives.Vertical

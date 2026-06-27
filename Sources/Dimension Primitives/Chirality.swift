@@ -39,13 +39,13 @@ extension Chirality {
     /// Returns the opposite chirality (mirror image).
     @inlinable
     public var opposite: Chirality {
-        Chirality.opposite(of: self)
+        Self.opposite(of: self)
     }
 
     /// Returns the opposite chirality (prefix negation).
     @inlinable
     public static prefix func ! (value: Chirality) -> Chirality {
-        Chirality.opposite(of: value)
+        Self.opposite(of: value)
     }
 
     /// Returns the mirrored chirality.
@@ -73,5 +73,5 @@ extension Chirality {
 // MARK: - Codable
 
 #if !hasFeature(Embedded)
-extension Chirality: Codable {}
+    extension Chirality: Codable {}
 #endif

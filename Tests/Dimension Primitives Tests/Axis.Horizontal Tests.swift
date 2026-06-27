@@ -1,6 +1,7 @@
 // Axis.Horizontal Tests.swift
 
-import Test_Support_Primitives
+import Axis_Primitive
+import Direction_Primitive
 import Testing
 
 @testable import Dimension_Primitives
@@ -9,28 +10,32 @@ import Testing
 
 @Suite
 struct `Axis.Horizontal - Typealias` {
+    // The `Axis<N>.*` orientation typealiases are referenced in expression position
+    // only. A named local typed as the sugared value-generic typealias —
+    // `let h: Axis<2>.Horizontal = …` — crashes the +Asserts debug-info mangler
+    // (getMangledName / IRGenDebugInfo.cpp:1098). See swift-compiler-bug-catalog §A21.
+
     @Test
     func `Axis2 Horizontal is identical to Horizontal`() {
-        let axisHoriz: Axis<2>.Horizontal = .leftward
-        let horiz: Horizontal = .leftward
-
-        #expect(axisHoriz == horiz)
-        #expect(axisHoriz.opposite == horiz.opposite)
+        #expect(Axis<2>.Horizontal.leftward == Horizontal.leftward)
+        #expect(Axis<2>.Horizontal.leftward.opposite == Horizontal.leftward.opposite)
     }
 
-    @Test(arguments: [Horizontal.rightward, Horizontal.leftward])
-    func `All Horizontal functionality available via Axis2 Horizontal`(horizontal: Horizontal) {
-        let axisHoriz: Axis<2>.Horizontal = horizontal
-
-        #expect(axisHoriz.direction == horizontal.direction)
-        #expect(axisHoriz.opposite == horizontal.opposite)
-        #expect(axisHoriz.isRightward == horizontal.isRightward)
-        #expect(axisHoriz.isLeftward == horizontal.isLeftward)
+    @Test
+    func `All Horizontal functionality available via Axis2 Horizontal`() {
+        #expect(Axis<2>.Horizontal.rightward.direction == Horizontal.rightward.direction)
+        #expect(Axis<2>.Horizontal.rightward.opposite == Horizontal.rightward.opposite)
+        #expect(Axis<2>.Horizontal.rightward.isRightward == Horizontal.rightward.isRightward)
+        #expect(Axis<2>.Horizontal.rightward.isLeftward == Horizontal.rightward.isLeftward)
+        #expect(Axis<2>.Horizontal.leftward.direction == Horizontal.leftward.direction)
+        #expect(Axis<2>.Horizontal.leftward.opposite == Horizontal.leftward.opposite)
+        #expect(Axis<2>.Horizontal.leftward.isRightward == Horizontal.leftward.isRightward)
+        #expect(Axis<2>.Horizontal.leftward.isLeftward == Horizontal.leftward.isLeftward)
     }
 
     @Test
     func `Horizontal available for 2D`() {
-        // Compile-time verification that typealias exists
-        let _: Axis<2>.Horizontal = .rightward
+        // Compile-time verification that the Axis<2>.Horizontal typealias exists.
+        _ = Axis<2>.Horizontal.rightward
     }
 }

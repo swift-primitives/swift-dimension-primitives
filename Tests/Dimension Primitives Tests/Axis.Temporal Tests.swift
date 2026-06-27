@@ -1,6 +1,7 @@
 // Axis.Temporal Tests.swift
 
-import Test_Support_Primitives
+import Axis_Primitive
+import Direction_Primitive
 import Testing
 
 @testable import Dimension_Primitives
@@ -9,28 +10,32 @@ import Testing
 
 @Suite
 struct `Axis.Temporal - Typealias` {
+    // The `Axis<N>.*` orientation typealiases are referenced in expression position
+    // only. A named local typed as the sugared value-generic typealias —
+    // `let t: Axis<4>.Temporal = …` — crashes the +Asserts debug-info mangler
+    // (getMangledName / IRGenDebugInfo.cpp:1098). See swift-compiler-bug-catalog §A21.
+
     @Test
     func `Axis Temporal is identical to Temporal`() {
-        let axisTemporal: Axis<4>.Temporal = .future
-        let temporal: Temporal = .future
-
-        #expect(axisTemporal == temporal)
-        #expect(axisTemporal.opposite == temporal.opposite)
+        #expect(Axis<4>.Temporal.future == Temporal.future)
+        #expect(Axis<4>.Temporal.future.opposite == Temporal.future.opposite)
     }
 
-    @Test(arguments: [Temporal.future, Temporal.past])
-    func `All Temporal functionality available via Axis Temporal`(temporal: Temporal) {
-        let axisTemporal: Axis<4>.Temporal = temporal
-
-        #expect(axisTemporal.direction == temporal.direction)
-        #expect(axisTemporal.opposite == temporal.opposite)
-        #expect(axisTemporal.isFuture == temporal.isFuture)
-        #expect(axisTemporal.isPast == temporal.isPast)
+    @Test
+    func `All Temporal functionality available via Axis Temporal`() {
+        #expect(Axis<4>.Temporal.future.direction == Temporal.future.direction)
+        #expect(Axis<4>.Temporal.future.opposite == Temporal.future.opposite)
+        #expect(Axis<4>.Temporal.future.isFuture == Temporal.future.isFuture)
+        #expect(Axis<4>.Temporal.future.isPast == Temporal.future.isPast)
+        #expect(Axis<4>.Temporal.past.direction == Temporal.past.direction)
+        #expect(Axis<4>.Temporal.past.opposite == Temporal.past.opposite)
+        #expect(Axis<4>.Temporal.past.isFuture == Temporal.past.isFuture)
+        #expect(Axis<4>.Temporal.past.isPast == Temporal.past.isPast)
     }
 
     @Test
     func `Temporal available for 4D`() {
-        // Compile-time verification that typealias exists
-        let _: Axis<4>.Temporal = .future
+        // Compile-time verification that the Axis<4>.Temporal typealias exists.
+        _ = Axis<4>.Temporal.future
     }
 }

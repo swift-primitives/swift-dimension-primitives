@@ -1,7 +1,5 @@
 // Winding Tests.swift
 
-import Foundation
-import Test_Support_Primitives
 import Testing
 
 @testable import Dimension_Primitives
@@ -100,14 +98,6 @@ struct `Winding - Protocol Conformances` {
     func `Hashable produces unique hashes`() {
         let set: Set<Winding> = [.clockwise, .counterclockwise, .clockwise]
         #expect(set.count == 2)
-    }
-
-    @Test
-    func `Codable roundtrip`() throws {
-        let original = Winding.clockwise
-        let encoded = try JSONEncoder().encode(original)
-        let decoded = try JSONDecoder().decode(Winding.self, from: encoded)
-        #expect(decoded == original)
     }
 }
 

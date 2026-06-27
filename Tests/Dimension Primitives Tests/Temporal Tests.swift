@@ -1,6 +1,6 @@
 // Temporal Tests.swift
 
-import Test_Support_Primitives
+import Direction_Primitive
 import Testing
 
 @testable import Dimension_Primitives

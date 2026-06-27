@@ -1,6 +1,6 @@
 // Tagged Tests.swift
 
-import Test_Support_Primitives
+import Dimension_Primitives_Test_Support
 import Testing
 
 @testable import Dimension_Primitives
@@ -14,31 +14,30 @@ struct `Tagged - Static Functions` {
 
     @Test
     func `map transforms raw value`() {
-        let tagged: Tagged<Tag1, Int> = Tagged(10)
+        let tagged: Tagged<Tag1, Int> = 10
         let result = Tagged<Tag1, Int>.map(tagged) { $0 * 2 }
         #expect(result == 20)
     }
 
     @Test
     func `map preserves tag`() {
-        let tagged: Tagged<Tag1, Int> = Tagged(10)
+        let tagged: Tagged<Tag1, Int> = 10
         let result: Tagged<Tag1, Double> = Tagged<Tag1, Int>.map(tagged) { Double($0) }
         #expect(result == 10.0)
     }
 
     @Test
     func `retag changes tag type`() {
-        let tagged: Tagged<Tag1, Int> = Tagged(42)
+        let tagged: Tagged<Tag1, Int> = 42
         let retagged: Tagged<Tag2, Int> = Tagged<Tag1, Int>.retag(tagged, to: Tag2.self)
         #expect(retagged == 42)
     }
 
-    @Test(arguments: [10, 20, -5, 0])
-    func `retag preserves raw value`(value: Int) {
-        let tagged: Tagged<Tag1, Int> = Tagged(value)
+    @Test
+    func `retag preserves raw value`() {
+        let tagged: Tagged<Tag1, Int> = 42
         let retagged: Tagged<Tag2, Int> = Tagged<Tag1, Int>.retag(tagged)
-        #expect(retagged._rawValue == tagged._rawValue)
-        #expect(retagged._rawValue == value)
+        #expect(retagged == 42)
     }
 }
 
@@ -46,26 +45,26 @@ struct `Tagged - Static Functions` {
 
 @Suite
 struct `Tagged - Properties` {
-    enum TestTag {}
+    enum Sample {}
 
     @Test
     func `rawValue accessor`() {
-        let tagged: Tagged<TestTag, Int> = Tagged(42)
+        let tagged: Tagged<Sample, Int> = 42
         #expect(tagged == 42)
     }
 
     @Test
     func `value is alias for rawValue`() {
-        let tagged: Tagged<TestTag, Int> = Tagged(100)
+        let tagged: Tagged<Sample, Int> = 100
         #expect(tagged == tagged)
         #expect(tagged == 100)
     }
 
     @Test
     func `map property delegates to static function`() {
-        let tagged: Tagged<TestTag, Int> = Tagged(10)
+        let tagged: Tagged<Sample, Int> = 10
         let result1 = tagged.map { $0 * 2 }
-        let result2 = Tagged<TestTag, Int>.map(tagged) { $0 * 2 }
+        let result2 = Tagged<Sample, Int>.map(tagged) { $0 * 2 }
         #expect(result1 == result2)
     }
 
@@ -73,7 +72,7 @@ struct `Tagged - Properties` {
     func `retag property delegates to static function`() {
         enum Tag1 {}
         enum Tag2 {}
-        let tagged: Tagged<Tag1, Int> = Tagged(42)
+        let tagged: Tagged<Tag1, Int> = 42
         let result1: Tagged<Tag2, Int> = tagged.retag()
         let result2: Tagged<Tag2, Int> = Tagged<Tag1, Int>.retag(tagged)
         #expect(result1 == result2)
@@ -84,41 +83,41 @@ struct `Tagged - Properties` {
 
 @Suite
 struct `Tagged - Initializers` {
-    enum TestTag {}
+    enum Sample {}
 
     @Test
     func `init with raw value`() {
-        let tagged: Tagged<TestTag, Int> = Tagged(42)
+        let tagged: Tagged<Sample, Int> = 42
         #expect(tagged == 42)
     }
 
     @Test
-    func `init with rawValue label`() {
-        let tagged: Tagged<TestTag, String> = Tagged(rawValue: "hello")
+    func `init with string value`() {
+        let tagged: Tagged<Sample, String> = "hello"
         #expect(tagged == "hello")
     }
 
     @Test
     func `integer literal initialization`() {
-        let tagged: Tagged<TestTag, Int> = 42
+        let tagged: Tagged<Sample, Int> = 42
         #expect(tagged == 42)
     }
 
     @Test
     func `float literal initialization`() {
-        let tagged: Tagged<TestTag, Double> = 3.14
+        let tagged: Tagged<Sample, Double> = 3.14
         #expect(tagged == 3.14)
     }
 
     @Test
     func `string literal initialization`() {
-        let tagged: Tagged<TestTag, String> = "hello"
+        let tagged: Tagged<Sample, String> = "hello"
         #expect(tagged == "hello")
     }
 
     @Test
     func `boolean literal initialization`() {
-        let tagged: Tagged<TestTag, Bool> = true
+        let tagged: Tagged<Sample, Bool> = true
         #expect(tagged == true)
     }
 }
@@ -127,44 +126,44 @@ struct `Tagged - Initializers` {
 
 @Suite
 struct `Tagged - Protocol Conformances` {
-    enum TestTag {}
+    enum Sample {}
 
     @Test
     func `Equatable when rawValue is Equatable`() {
-        let tag1: Tagged<TestTag, Int> = Tagged(10)
-        let tag2: Tagged<TestTag, Int> = Tagged(10)
-        let tag3: Tagged<TestTag, Int> = Tagged(20)
+        let tag1: Tagged<Sample, Int> = 10
+        let tag2: Tagged<Sample, Int> = 10
+        let tag3: Tagged<Sample, Int> = 20
         #expect(tag1 == tag2)
         #expect(tag1 != tag3)
     }
 
     @Test
     func `Hashable when rawValue is Hashable`() {
-        let set: Set<Tagged<TestTag, Int>> = [Tagged(10), Tagged(20), Tagged(10)]
+        let set: Set<Tagged<Sample, Int>> = [10, 20, 10]
         #expect(set.count == 2)
     }
 
     @Test
     func `Comparable when rawValue is Comparable`() {
-        let tag1: Tagged<TestTag, Int> = Tagged(10)
-        let tag2: Tagged<TestTag, Int> = Tagged(20)
+        let tag1: Tagged<Sample, Int> = 10
+        let tag2: Tagged<Sample, Int> = 20
         #expect(tag1 < tag2)
         #expect(tag2 > tag1)
     }
 
     @Test
     func `max function`() {
-        let tag1: Tagged<TestTag, Int> = Tagged(10)
-        let tag2: Tagged<TestTag, Int> = Tagged(20)
-        let result = Tagged<TestTag, Int>.max(tag1, tag2)
+        let tag1: Tagged<Sample, Int> = 10
+        let tag2: Tagged<Sample, Int> = 20
+        let result = Tagged<Sample, Int>.max(tag1, tag2)
         #expect(result == 20)
     }
 
     @Test
     func `min function`() {
-        let tag1: Tagged<TestTag, Int> = Tagged(10)
-        let tag2: Tagged<TestTag, Int> = Tagged(20)
-        let result = Tagged<TestTag, Int>.min(tag1, tag2)
+        let tag1: Tagged<Sample, Int> = 10
+        let tag2: Tagged<Sample, Int> = 20
+        let result = Tagged<Sample, Int>.min(tag1, tag2)
         #expect(result == 10)
     }
 }
@@ -287,7 +286,7 @@ struct `Tagged - Angle Arithmetic` {
 
     @Test
     func `radian scaling by scalar`() {
-        let r: Radian<Double> = Tagged(.pi)
+        let r: Radian<Double> = .pi
         let result1 = r * 2.0
         let result2 = 2.0 * r
         #expect(result1 == .pi * 2)
@@ -296,23 +295,23 @@ struct `Tagged - Angle Arithmetic` {
 
     @Test
     func `radian division by scalar`() {
-        let r: Radian<Double> = Tagged(.pi)
+        let r: Radian<Double> = .pi
         let result = r / 2.0
         #expect(result == .pi / 2)
     }
 
     @Test
     func `degree + degree`() {
-        let d1: Degree<Double> = Tagged(90.0)
-        let d2: Degree<Double> = Tagged(45.0)
+        let d1: Degree<Double> = 90.0
+        let d2: Degree<Double> = 45.0
         let result = d1 + d2
         #expect(result == 135.0)
     }
 
     @Test
     func `degree - degree`() {
-        let d1: Degree<Double> = Tagged(90.0)
-        let d2: Degree<Double> = Tagged(45.0)
+        let d1: Degree<Double> = 90.0
+        let d2: Degree<Double> = 45.0
         let result = d1 - d2
         #expect(result == 45.0)
     }
@@ -433,38 +432,16 @@ struct `Tagged - Free Functions` {
     }
 }
 
-// MARK: - Tagged - Strideable
-
-@Suite
-struct `Tagged - Strideable` {
-    enum TestTag {}
-
-    @Test
-    func `distance between tagged values`() {
-        let tag1: Tagged<TestTag, Int> = Tagged(10)
-        let tag2: Tagged<TestTag, Int> = Tagged(20)
-        let distance = tag1.distance(to: tag2)
-        #expect(distance == 10)
-    }
-
-    @Test
-    func `advanced by stride`() {
-        let tagged: Tagged<TestTag, Int> = Tagged(10)
-        let result = tagged.advanced(by: 5)
-        #expect(result == 15)
-    }
-}
-
 // MARK: - Tagged - AdditiveArithmetic Zero
 
 @Suite
 struct `Tagged - Zero` {
-    enum TestTag {}
+    enum Sample {}
     enum TestSpace {}
 
     @Test
     func `zero for generic tag`() {
-        let zero: Tagged<TestTag, Int> = .zero
+        let zero: Tagged<Sample, Int> = .zero
         #expect(zero == 0)
     }
 

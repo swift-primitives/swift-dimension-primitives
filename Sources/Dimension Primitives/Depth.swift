@@ -1,6 +1,8 @@
 // Depth.swift
 // Depth (Z) axis orientation and oriented values.
 
+public import Direction_Primitive
+
 /// Z-axis orientation: forward or backward.
 ///
 /// `Depth` specifies which direction along the Z-axis is considered positive. Forward is left-handed (DirectX, Metal) with Z into the screen, while backward is right-handed (OpenGL, math) with Z out of the screen.
@@ -59,7 +61,7 @@ extension Depth: Orientation {
     /// Returns the opposite orientation.
     @inlinable
     public var opposite: Depth {
-        Depth.opposite(of: self)
+        Self.opposite(of: self)
     }
 
     /// All depth orientations.
@@ -81,6 +83,7 @@ extension Depth {
 // MARK: - CustomStringConvertible
 
 extension Depth: CustomStringConvertible {
+    /// A textual representation of the orientation ("forward" or "backward").
     public var description: String {
         switch self {
         case .forward: return "forward"
@@ -92,5 +95,5 @@ extension Depth: CustomStringConvertible {
 // MARK: - Codable
 
 #if !hasFeature(Embedded)
-extension Depth: Codable {}
+    extension Depth: Codable {}
 #endif

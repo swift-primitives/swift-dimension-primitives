@@ -1,6 +1,7 @@
 // Axis.Direction Tests.swift
 
-import Test_Support_Primitives
+import Axis_Primitive
+import Direction_Primitive
 import Testing
 
 @testable import Dimension_Primitives
@@ -9,34 +10,34 @@ import Testing
 
 @Suite
 struct `Axis.Direction - Typealias` {
+    // `Axis<N>.Direction` is referenced in expression position only. A named local
+    // typed as the sugared value-generic typealias — `let d: Axis<3>.Direction = …` —
+    // crashes the +Asserts debug-info mangler (getMangledName /
+    // IRGenDebugInfo.cpp:1098). See swift-compiler-bug-catalog §A21.
+
     @Test
     func `Direction is same type across all dimensions`() {
-        let dir1: Axis<1>.Direction = .positive
-        let dir2: Axis<2>.Direction = .positive
-        let dir3: Axis<3>.Direction = .positive
-        let dir4: Axis<4>.Direction = .positive
-
-        // All resolve to the same Direction type
-        #expect(dir1 == dir2)
-        #expect(dir2 == dir3)
-        #expect(dir3 == dir4)
+        // Homogeneous `==` across the Axis<N>.Direction spellings type-checks only if
+        // they are the same type — proving Direction is identical for every N.
+        #expect(Axis<1>.Direction.positive == Axis<2>.Direction.positive)
+        #expect(Axis<2>.Direction.positive == Axis<3>.Direction.positive)
+        #expect(Axis<3>.Direction.positive == Axis<4>.Direction.positive)
+        #expect(Axis<4>.Direction.positive == Direction.positive)
     }
 
     @Test
     func `Axis Direction is identical to Direction`() {
-        let axisDir: Axis<3>.Direction = .negative
-        let dir: Direction = .negative
-
-        #expect(axisDir == dir)
-        #expect(axisDir.opposite == dir.opposite)
+        #expect(Axis<3>.Direction.negative == Direction.negative)
+        #expect(Axis<3>.Direction.negative.opposite == Direction.negative.opposite)
     }
 
-    @Test(arguments: [Direction.positive, Direction.negative])
-    func `All Direction functionality available via Axis Direction`(direction: Direction) {
-        let axisDir: Axis<2>.Direction = direction
-
-        #expect(axisDir.sign == direction.sign)
-        #expect(axisDir.opposite == direction.opposite)
-        #expect(axisDir.direction == direction.direction)
+    @Test
+    func `All Direction functionality available via Axis Direction`() {
+        #expect(Axis<2>.Direction.positive.sign == Direction.positive.sign)
+        #expect(Axis<2>.Direction.positive.opposite == Direction.positive.opposite)
+        #expect(Axis<2>.Direction.positive.direction == Direction.positive.direction)
+        #expect(Axis<2>.Direction.negative.sign == Direction.negative.sign)
+        #expect(Axis<2>.Direction.negative.opposite == Direction.negative.opposite)
+        #expect(Axis<2>.Direction.negative.direction == Direction.negative.direction)
     }
 }

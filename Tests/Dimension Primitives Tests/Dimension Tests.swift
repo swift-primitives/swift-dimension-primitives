@@ -1,6 +1,6 @@
 // Dimension Tests.swift
 
-import Test_Support_Primitives
+import Dimension_Primitives_Test_Support
 import Testing
 
 @testable import Dimension_Primitives

@@ -39,13 +39,13 @@ extension Winding {
     /// Returns the opposite winding direction.
     @inlinable
     public var opposite: Winding {
-        Winding.opposite(of: self)
+        Self.opposite(of: self)
     }
 
     /// Returns the opposite winding direction (prefix negation).
     @inlinable
     public static prefix func ! (value: Winding) -> Winding {
-        Winding.opposite(of: value)
+        Self.opposite(of: value)
     }
 }
 
@@ -69,5 +69,5 @@ extension Winding {
 // MARK: - Codable
 
 #if !hasFeature(Embedded)
-extension Winding: Codable {}
+    extension Winding: Codable {}
 #endif

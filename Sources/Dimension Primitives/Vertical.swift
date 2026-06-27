@@ -1,6 +1,8 @@
 // Vertical.swift
 // Vertical (Y) axis orientation and oriented values.
 
+public import Direction_Primitive
+
 /// Y-axis orientation: upward or downward.
 ///
 /// `Vertical` specifies which direction along the Y-axis is considered positive. Upward is standard Cartesian (math, PDF), while downward is common for screen coordinates (CSS, many graphics APIs).
@@ -59,7 +61,7 @@ extension Vertical: Orientation {
     /// Returns the opposite orientation.
     @inlinable
     public var opposite: Vertical {
-        Vertical.opposite(of: self)
+        Self.opposite(of: self)
     }
 
     /// All vertical orientations.
@@ -81,6 +83,7 @@ extension Vertical {
 // MARK: - CustomStringConvertible
 
 extension Vertical: CustomStringConvertible {
+    /// A textual representation of the orientation ("upward" or "downward").
     public var description: String {
         switch self {
         case .upward: return "upward"
@@ -92,5 +95,5 @@ extension Vertical: CustomStringConvertible {
 // MARK: - Codable
 
 #if !hasFeature(Embedded)
-extension Vertical: Codable {}
+    extension Vertical: Codable {}
 #endif
