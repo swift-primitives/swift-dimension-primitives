@@ -13,7 +13,11 @@
 /// Angles are dimensionless quantities (ratio of arc length to radius for radians,
 /// or fraction of a circle for degrees). They don't belong to a coordinate space
 /// and aren't part of affine geometry—they're pure scalar measurements.
-public enum Angle {
+public enum Angle {}
+
+// MARK: - Nested Types
+
+extension Angle {
     /// Angle measured in radians (arc length / radius).
     public enum Radian {}
 

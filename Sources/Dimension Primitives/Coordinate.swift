@@ -19,7 +19,11 @@
 /// let dx: Displacement.X<MySpace>.Value<Double> = 5.0
 /// let newX = x + dx  // OK: Coordinate + Displacement = Coordinate
 /// ```
-public enum Coordinate {
+public enum Coordinate {}
+
+// MARK: - Nested Types
+
+extension Coordinate {
     /// Horizontal position (1D), parameterized by coordinate system.
     public enum X<Space> {}
 

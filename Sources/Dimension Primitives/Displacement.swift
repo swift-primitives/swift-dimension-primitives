@@ -19,7 +19,11 @@
 /// let dx2: Dx = 3.0
 /// let sum = dx1 + dx2  // OK: Displacement + Displacement = Displacement
 /// ```
-public enum Displacement {
+public enum Displacement {}
+
+// MARK: - Nested Types
+
+extension Displacement {
     /// Horizontal offset dx (1D), parameterized by coordinate system.
     public enum X<Space> {}
 

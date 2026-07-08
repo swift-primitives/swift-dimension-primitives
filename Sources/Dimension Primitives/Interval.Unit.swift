@@ -35,10 +35,6 @@ extension Interval where Scalar: BinaryFloatingPoint {
         /// The underlying value in [0, 1].
         @usableFromInline internal var _storage: Scalar
 
-        /// The underlying value in [0, 1].
-        @inlinable
-        public var underlying: Scalar { _storage }
-
         // MARK: - Initializers
 
         /// Creates a unit value if within bounds and finite.
@@ -99,6 +95,14 @@ extension Interval where Scalar: BinaryFloatingPoint {
             }
         }
     }
+}
+
+// MARK: - Underlying Access
+
+extension Interval.Unit {
+    /// The underlying value in [0, 1].
+    @inlinable
+    public var underlying: Scalar { _storage }
 }
 
 // MARK: - Sendable

@@ -13,7 +13,11 @@
 /// typealias Height = Extent.Y<MySpace>.Value<Double>
 /// let size = width * height  // Raw scalar (area)
 /// ```
-public enum Extent {
+public enum Extent {}
+
+// MARK: - Nested Types
+
+extension Extent {
     /// Width (1D), parameterized by coordinate system.
     public enum X<Space> {}
 
