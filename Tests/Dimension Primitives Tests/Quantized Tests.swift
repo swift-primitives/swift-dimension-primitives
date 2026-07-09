@@ -11,7 +11,9 @@ import Testing
 
 // MARK: - Test Space
 
-enum TestQuantizedSpace: Numeric.Quantized {
+enum TestQuantizedSpace: Numeric.Quantized {}
+
+extension TestQuantizedSpace {
     typealias Scalar = Double
     static var quantum: Double { 0.01 }
 }
