@@ -6,7 +6,7 @@ import Testing
 @testable import Dimension_Primitives
 
 @Suite
-struct OrientationTests {
+struct `Orientation Tests` {
     // MARK: - Protocol Requirements
 
     @Test
