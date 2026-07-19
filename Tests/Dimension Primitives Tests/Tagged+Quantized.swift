@@ -161,6 +161,33 @@ struct `Tagged+Quantized` {
     }
 
     @Suite
+    struct `Canonical Quantization` {
+
+        // F-001 regression: the constrained `_quantize<S: Numeric.Quantized>`
+        // overload was never reachable from the generic `+`/`-` operators in
+        // Tagged+Arithmetic.swift (Space carries no static Quantized
+        // constraint at those call sites), so arithmetic results stored the
+        // raw floating-point sum instead of the canonical
+        // `Underlying(ticks) * quantum` bit pattern. `.ticks` re-quantizes on
+        // read and so masked the bug for tick-based comparisons; only the
+        // raw `.underlying` bits exposed it. These specific tick values were
+        // chosen because IEEE 754 double addition of their quantized
+        // representations (8867 * 0.01) + (-5951 * 0.01) does not bit-for-bit
+        // equal the canonically reconstructed (2916 * 0.01) — deterministic
+        // under IEEE 754, not a flaky proximity check.
+        @Test
+        func `coordinate + displacement produces canonical bit pattern, not raw float sum`() {
+            let x: QX = .init(ticks: 8867)
+            let dx: QDx = .init(ticks: -5951)
+            let result = x + dx
+            let canonical = QX(ticks: 2916)
+
+            #expect(result.ticks == 2916)
+            #expect(result.underlying.bitPattern == canonical.underlying.bitPattern)
+        }
+    }
+
+    @Suite
     struct `Boundary Alignment` {
 
         @Test

@@ -6,22 +6,43 @@ import Numeric_Primitives_Core
 // MARK: - Canonical Quantization
 
 extension Tagged where Underlying: BinaryFloatingPoint {
-    /// Finalizes an arithmetic result, passing through unchanged.
+    /// Finalizes an arithmetic result, quantizing to the grid when `Space`
+    /// conforms to `Numeric.Quantized`, and passing the value through
+    /// unchanged otherwise.
     ///
-    /// This overload is selected when Space does not conform to Quantized.
-    /// Zero runtime cost: compiles to a direct initialization.
+    /// Every arithmetic call site (`Tagged+Arithmetic.swift`) is generic over
+    /// `Space` with no static `Numeric.Quantized` constraint — that is the
+    /// whole point of those operators working for both quantized and
+    /// unquantized spaces alike. A pair of statically-overloaded siblings
+    /// (one unconstrained, one `where S: Numeric.Quantized`) is therefore
+    /// **never** resolved to the constrained overload from those sites:
+    /// overload resolution for a generic function's body is fixed once,
+    /// against the abstract type parameter `Space`, which never itself
+    /// conforms to `Numeric.Quantized` no matter what concrete type it is
+    /// later instantiated with. That made quantization statically
+    /// unreachable. This single entry point instead performs the conformance
+    /// check at runtime via a conditional cast to the existential metatype,
+    /// which is evaluated per call against the concrete `S` and therefore
+    /// stays reachable from every generic context.
     @inlinable
     public static func _quantize<S>(_ value: Underlying, in space: S.Type) -> Self {
-        Self(_unchecked: value)
+        guard let quantized = S.self as? any Numeric.Quantized.Type else {
+            return Self(_unchecked: value)
+        }
+        return _quantize(value, quantizedBy: quantized)
     }
 
-    /// Finalizes an arithmetic result with quantization to the grid.
+    /// Quantizes `value` to the grid defined by `space`'s conformance to
+    /// `Numeric.Quantized`.
     ///
-    /// This overload is selected when Space conforms to Quantized.
-    /// Produces canonical representation: same tick always yields identical bits.
+    /// Produces canonical representation: the same tick always yields
+    /// identical bits. `space` arrives pre-opened as an existential metatype
+    /// from `_quantize(_:in:)`'s runtime conformance check; passing it to a
+    /// generic parameter here triggers implicit existential opening
+    /// (SE-0352) so `Q` binds to the concrete underlying type.
     @inlinable
-    public static func _quantize<S: Numeric.Quantized>(_ value: Underlying, in space: S.Type) -> Self {
-        let q = S.quantum(as: Underlying.self)
+    public static func _quantize<Q: Numeric.Quantized>(_ value: Underlying, quantizedBy space: Q.Type) -> Self {
+        let q = Q.quantum(as: Underlying.self)
         let ticks = Int64((value / q).rounded())
         return Self(_unchecked: Underlying(ticks) * q)
     }
