@@ -32,8 +32,8 @@ extension Tagged where Underlying: BinaryFloatingPoint {
         return _quantize(value, quantizedBy: quantized)
     }
 
-    /// Quantizes `value` to the grid defined by `space`'s conformance to
-    /// `Numeric.Quantized`.
+    /// Quantizes `value` to the grid defined by the `Numeric.Quantized`
+    /// conformance of `space`.
     ///
     /// Produces canonical representation: the same tick always yields
     /// identical bits. `space` arrives pre-opened as an existential metatype
