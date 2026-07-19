@@ -259,6 +259,45 @@ struct `Tagged - Coordinate Displacement Arithmetic` {
         let result: Displacement.X<TestSpace>.Value<Double> = x1 - x2
         #expect(result == 3.0)
     }
+
+    // Compound-assignment regression coverage (F-001 residual gap, fixed
+    // alongside `Tagged+Quantized.swift`'s "Compound Assignment" suite):
+    // `TestSpace` here does not conform to `Numeric.Quantized`, so these
+    // assert the non-quantized path — both the `BinaryFloatingPoint`
+    // (`Double`) and plain-`AdditiveArithmetic` (`Int`) compound-assignment
+    // overloads — is unchanged by adding the quantizing sibling overloads.
+
+    @Test
+    func `coordinate += displacement (Double, non-quantized space)`() {
+        var x: Coordinate.X<TestSpace>.Value<Double> = Tagged(10.0)
+        let dx: Displacement.X<TestSpace>.Value<Double> = Tagged(5.0)
+        x += dx
+        #expect(x == 15.0)
+    }
+
+    @Test
+    func `coordinate -= displacement (Double, non-quantized space)`() {
+        var x: Coordinate.X<TestSpace>.Value<Double> = Tagged(10.0)
+        let dx: Displacement.X<TestSpace>.Value<Double> = Tagged(3.0)
+        x -= dx
+        #expect(x == 7.0)
+    }
+
+    @Test
+    func `coordinate += displacement (Int, plain AdditiveArithmetic space)`() {
+        var x: Coordinate.X<TestSpace>.Value<Int> = Tagged(10)
+        let dx: Displacement.X<TestSpace>.Value<Int> = Tagged(5)
+        x += dx
+        #expect(x == 15)
+    }
+
+    @Test
+    func `coordinate -= displacement (Int, plain AdditiveArithmetic space)`() {
+        var x: Coordinate.X<TestSpace>.Value<Int> = Tagged(10)
+        let dx: Displacement.X<TestSpace>.Value<Int> = Tagged(3)
+        x -= dx
+        #expect(x == 7)
+    }
 }
 
 // MARK: - Tagged - Angle Arithmetic

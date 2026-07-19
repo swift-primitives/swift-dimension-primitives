@@ -24,6 +24,8 @@ private typealias QX = Coordinate.X<TestSpace>.Value<Double>
 private typealias QY = Coordinate.Y<TestSpace>.Value<Double>
 private typealias QDx = Displacement.X<TestSpace>.Value<Double>
 private typealias QDy = Displacement.Y<TestSpace>.Value<Double>
+private typealias QMag = Magnitude<TestSpace>.Value<Double>
+private typealias QExtX = Extent.X<TestSpace>.Value<Double>
 
 // MARK: - Generic-Context Equality Probe
 
@@ -194,6 +196,117 @@ struct `Tagged+Quantized` {
 
             #expect(result.ticks == 2916)
             #expect(result.underlying.bitPattern == canonical.underlying.bitPattern)
+        }
+    }
+
+    @Suite
+    struct `Compound Assignment` {
+
+        // F-001 residual regression: fixing `_quantize(_:in:)`'s entry point
+        // (the "Canonical Quantization" suite above) made the *direct*
+        // `+`/`-` operators reach quantization, but the 18 `+=`/`-=`
+        // compound-assignment operators over Coordinate (paired with
+        // Displacement, Magnitude, and Extent) still delegated as
+        // `lhs = lhs + rhs` from a body generic over
+        // `Scalar: AdditiveArithmetic`. At that call site `Scalar` is not
+        // statically known to conform to `BinaryFloatingPoint`, so overload
+        // resolution could only ever select the disfavored, non-quantizing
+        // `AdditiveArithmetic` sibling of `+`/`-` — never the quantizing
+        // `BinaryFloatingPoint` sibling — regardless of what concrete
+        // scalar the compound operator was later instantiated with. That
+        // reproduces the exact same "generic overload resolution is fixed
+        // against the abstract type parameter" defect described for
+        // `_quantize` itself, one call frame up. The fix adds a matching
+        // `Scalar: BinaryFloatingPoint`-constrained `+=`/`-=` overload for
+        // each of the 18 sites that calls `._quantize(_:in:)` directly,
+        // mirroring the direct operator's own implementation, instead of
+        // delegating through `+`/`-`.
+        //
+        // Each tick pair below was verified (via IEEE 754 double-precision
+        // arithmetic) to produce a raw-sum/raw-difference bit pattern that
+        // does not equal the canonically reconstructed `Underlying(ticks) *
+        // quantum` bit pattern — so pre-fix, `var d = x; d += y` (raw,
+        // unquantized) is bit-*unequal* to `x + y` (quantized since F-001),
+        // and this suite is RED. Post-fix both paths call the identical
+        // `._quantize` expression, so they are bit-*identical* by
+        // construction, not by chance, and this suite is GREEN.
+
+        @Test
+        func `coordinate += displacement matches direct addition's canonical bits`() {
+            let x: QX = .init(ticks: 8867)
+            let dx: QDx = .init(ticks: -5951)
+
+            var d = x
+            d += dx
+            let direct = x + dx
+
+            #expect(d.ticks == 2916)
+            #expect(d.underlying.bitPattern == direct.underlying.bitPattern)
+        }
+
+        @Test
+        func `coordinate -= displacement matches direct subtraction's canonical bits`() {
+            let x: QX = .init(ticks: 14940)
+            let dx: QDx = .init(ticks: 21800)
+
+            var d = x
+            d -= dx
+            let direct = x - dx
+
+            #expect(d.ticks == -6860)
+            #expect(d.underlying.bitPattern == direct.underlying.bitPattern)
+        }
+
+        @Test
+        func `coordinate += magnitude matches direct addition's canonical bits`() {
+            let x: QX = .init(ticks: 1000)
+            let m: QMag = .init(ticks: 547)
+
+            var d = x
+            d += m
+            let direct = x + m
+
+            #expect(d.ticks == 1547)
+            #expect(d.underlying.bitPattern == direct.underlying.bitPattern)
+        }
+
+        @Test
+        func `coordinate -= magnitude matches direct subtraction's canonical bits`() {
+            let x: QX = .init(ticks: 8867)
+            let m: QMag = .init(ticks: 5951)
+
+            var d = x
+            d -= m
+            let direct = x - m
+
+            #expect(d.ticks == 2916)
+            #expect(d.underlying.bitPattern == direct.underlying.bitPattern)
+        }
+
+        @Test
+        func `coordinate += extent matches direct addition's canonical bits`() {
+            let x: QX = .init(ticks: 1000)
+            let e: QExtX = .init(ticks: 547)
+
+            var d = x
+            d += e
+            let direct = x + e
+
+            #expect(d.ticks == 1547)
+            #expect(d.underlying.bitPattern == direct.underlying.bitPattern)
+        }
+
+        @Test
+        func `coordinate -= extent matches direct subtraction's canonical bits`() {
+            let x: QX = .init(ticks: 8867)
+            let e: QExtX = .init(ticks: 5951)
+
+            var d = x
+            d -= e
+            let direct = x - e
+
+            #expect(d.ticks == 2916)
+            #expect(d.underlying.bitPattern == direct.underlying.bitPattern)
         }
     }
 

@@ -1053,15 +1053,26 @@ public func + <Space, Scalar: BinaryFloatingPoint>(
 // MARK: Coordinate/Displacement Compound Assignment
 
 /// Add-assign a displacement to an X coordinate.
+@_disfavoredOverload
 @inlinable
 public func += <Space, Scalar: AdditiveArithmetic>(
     lhs: inout Coordinate.X<Space>.Value<Scalar>,
     rhs: Displacement.X<Space>.Value<Scalar>
 ) {
     lhs = lhs + rhs
+}
+
+/// Add-assign a displacement to an X coordinate with quantization (for floating-point types).
+@inlinable
+public func += <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.X<Space>.Value<Scalar>,
+    rhs: Displacement.X<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying + rhs.underlying, in: Space.self)
 }
 
 /// Subtract-assign a displacement from an X coordinate.
+@_disfavoredOverload
 @inlinable
 public func -= <Space, Scalar: AdditiveArithmetic>(
     lhs: inout Coordinate.X<Space>.Value<Scalar>,
@@ -1070,16 +1081,36 @@ public func -= <Space, Scalar: AdditiveArithmetic>(
     lhs = lhs - rhs
 }
 
+/// Subtract-assign a displacement from an X coordinate with quantization (for floating-point types).
+@inlinable
+public func -= <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.X<Space>.Value<Scalar>,
+    rhs: Displacement.X<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying - rhs.underlying, in: Space.self)
+}
+
 /// Add-assign a displacement to a Y coordinate.
+@_disfavoredOverload
 @inlinable
 public func += <Space, Scalar: AdditiveArithmetic>(
     lhs: inout Coordinate.Y<Space>.Value<Scalar>,
     rhs: Displacement.Y<Space>.Value<Scalar>
 ) {
     lhs = lhs + rhs
+}
+
+/// Add-assign a displacement to a Y coordinate with quantization (for floating-point types).
+@inlinable
+public func += <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Y<Space>.Value<Scalar>,
+    rhs: Displacement.Y<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying + rhs.underlying, in: Space.self)
 }
 
 /// Subtract-assign a displacement from a Y coordinate.
+@_disfavoredOverload
 @inlinable
 public func -= <Space, Scalar: AdditiveArithmetic>(
     lhs: inout Coordinate.Y<Space>.Value<Scalar>,
@@ -1088,7 +1119,17 @@ public func -= <Space, Scalar: AdditiveArithmetic>(
     lhs = lhs - rhs
 }
 
+/// Subtract-assign a displacement from a Y coordinate with quantization (for floating-point types).
+@inlinable
+public func -= <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Y<Space>.Value<Scalar>,
+    rhs: Displacement.Y<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying - rhs.underlying, in: Space.self)
+}
+
 /// Add-assign a displacement to a Z coordinate.
+@_disfavoredOverload
 @inlinable
 public func += <Space, Scalar: AdditiveArithmetic>(
     lhs: inout Coordinate.Z<Space>.Value<Scalar>,
@@ -1097,13 +1138,32 @@ public func += <Space, Scalar: AdditiveArithmetic>(
     lhs = lhs + rhs
 }
 
+/// Add-assign a displacement to a Z coordinate with quantization (for floating-point types).
+@inlinable
+public func += <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Z<Space>.Value<Scalar>,
+    rhs: Displacement.Z<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying + rhs.underlying, in: Space.self)
+}
+
 /// Subtract-assign a displacement from a Z coordinate.
+@_disfavoredOverload
 @inlinable
 public func -= <Space, Scalar: AdditiveArithmetic>(
     lhs: inout Coordinate.Z<Space>.Value<Scalar>,
     rhs: Displacement.Z<Space>.Value<Scalar>
 ) {
     lhs = lhs - rhs
+}
+
+/// Subtract-assign a displacement from a Z coordinate with quantization (for floating-point types).
+@inlinable
+public func -= <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Z<Space>.Value<Scalar>,
+    rhs: Displacement.Z<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying - rhs.underlying, in: Space.self)
 }
 
 // MARK: - Magnitude/Coordinate Arithmetic
@@ -1295,6 +1355,15 @@ public func += <Space, Scalar: AdditiveArithmetic>(
     lhs = lhs + rhs
 }
 
+/// Add-assign a magnitude to an X coordinate with quantization (for floating-point types).
+@inlinable
+public func += <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.X<Space>.Value<Scalar>,
+    rhs: Magnitude<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying + rhs.underlying, in: Space.self)
+}
+
 /// Subtract-assign a magnitude from an X coordinate.
 @_disfavoredOverload
 @inlinable
@@ -1303,6 +1372,15 @@ public func -= <Space, Scalar: AdditiveArithmetic>(
     rhs: Magnitude<Space>.Value<Scalar>
 ) {
     lhs = lhs - rhs
+}
+
+/// Subtract-assign a magnitude from an X coordinate with quantization (for floating-point types).
+@inlinable
+public func -= <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.X<Space>.Value<Scalar>,
+    rhs: Magnitude<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying - rhs.underlying, in: Space.self)
 }
 
 /// Add-assign a magnitude to a Y coordinate.
@@ -1315,6 +1393,15 @@ public func += <Space, Scalar: AdditiveArithmetic>(
     lhs = lhs + rhs
 }
 
+/// Add-assign a magnitude to a Y coordinate with quantization (for floating-point types).
+@inlinable
+public func += <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Y<Space>.Value<Scalar>,
+    rhs: Magnitude<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying + rhs.underlying, in: Space.self)
+}
+
 /// Subtract-assign a magnitude from a Y coordinate.
 @_disfavoredOverload
 @inlinable
@@ -1323,6 +1410,15 @@ public func -= <Space, Scalar: AdditiveArithmetic>(
     rhs: Magnitude<Space>.Value<Scalar>
 ) {
     lhs = lhs - rhs
+}
+
+/// Subtract-assign a magnitude from a Y coordinate with quantization (for floating-point types).
+@inlinable
+public func -= <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Y<Space>.Value<Scalar>,
+    rhs: Magnitude<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying - rhs.underlying, in: Space.self)
 }
 
 /// Add-assign a magnitude to a Z coordinate.
@@ -1335,6 +1431,15 @@ public func += <Space, Scalar: AdditiveArithmetic>(
     lhs = lhs + rhs
 }
 
+/// Add-assign a magnitude to a Z coordinate with quantization (for floating-point types).
+@inlinable
+public func += <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Z<Space>.Value<Scalar>,
+    rhs: Magnitude<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying + rhs.underlying, in: Space.self)
+}
+
 /// Subtract-assign a magnitude from a Z coordinate.
 @_disfavoredOverload
 @inlinable
@@ -1343,6 +1448,15 @@ public func -= <Space, Scalar: AdditiveArithmetic>(
     rhs: Magnitude<Space>.Value<Scalar>
 ) {
     lhs = lhs - rhs
+}
+
+/// Subtract-assign a magnitude from a Z coordinate with quantization (for floating-point types).
+@inlinable
+public func -= <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Z<Space>.Value<Scalar>,
+    rhs: Magnitude<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying - rhs.underlying, in: Space.self)
 }
 
 // MARK: - Extent/Coordinate Arithmetic
@@ -1534,6 +1648,15 @@ public func += <Space, Scalar: AdditiveArithmetic>(
     lhs = lhs + rhs
 }
 
+/// Add-assign an X extent to an X coordinate with quantization (for floating-point types).
+@inlinable
+public func += <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.X<Space>.Value<Scalar>,
+    rhs: Extent.X<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying + rhs.underlying, in: Space.self)
+}
+
 /// Subtract-assign an X extent from an X coordinate.
 @_disfavoredOverload
 @inlinable
@@ -1542,6 +1665,15 @@ public func -= <Space, Scalar: AdditiveArithmetic>(
     rhs: Extent.X<Space>.Value<Scalar>
 ) {
     lhs = lhs - rhs
+}
+
+/// Subtract-assign an X extent from an X coordinate with quantization (for floating-point types).
+@inlinable
+public func -= <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.X<Space>.Value<Scalar>,
+    rhs: Extent.X<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying - rhs.underlying, in: Space.self)
 }
 
 /// Add-assign a Y extent to a Y coordinate.
@@ -1554,6 +1686,15 @@ public func += <Space, Scalar: AdditiveArithmetic>(
     lhs = lhs + rhs
 }
 
+/// Add-assign a Y extent to a Y coordinate with quantization (for floating-point types).
+@inlinable
+public func += <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Y<Space>.Value<Scalar>,
+    rhs: Extent.Y<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying + rhs.underlying, in: Space.self)
+}
+
 /// Subtract-assign a Y extent from a Y coordinate.
 @_disfavoredOverload
 @inlinable
@@ -1562,6 +1703,15 @@ public func -= <Space, Scalar: AdditiveArithmetic>(
     rhs: Extent.Y<Space>.Value<Scalar>
 ) {
     lhs = lhs - rhs
+}
+
+/// Subtract-assign a Y extent from a Y coordinate with quantization (for floating-point types).
+@inlinable
+public func -= <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Y<Space>.Value<Scalar>,
+    rhs: Extent.Y<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying - rhs.underlying, in: Space.self)
 }
 
 /// Add-assign a Z extent to a Z coordinate.
@@ -1574,6 +1724,15 @@ public func += <Space, Scalar: AdditiveArithmetic>(
     lhs = lhs + rhs
 }
 
+/// Add-assign a Z extent to a Z coordinate with quantization (for floating-point types).
+@inlinable
+public func += <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Z<Space>.Value<Scalar>,
+    rhs: Extent.Z<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying + rhs.underlying, in: Space.self)
+}
+
 /// Subtract-assign a Z extent from a Z coordinate.
 @_disfavoredOverload
 @inlinable
@@ -1582,6 +1741,15 @@ public func -= <Space, Scalar: AdditiveArithmetic>(
     rhs: Extent.Z<Space>.Value<Scalar>
 ) {
     lhs = lhs - rhs
+}
+
+/// Subtract-assign a Z extent from a Z coordinate with quantization (for floating-point types).
+@inlinable
+public func -= <Space, Scalar: BinaryFloatingPoint>(
+    lhs: inout Coordinate.Z<Space>.Value<Scalar>,
+    rhs: Extent.Z<Space>.Value<Scalar>
+) {
+    lhs = ._quantize(lhs.underlying - rhs.underlying, in: Space.self)
 }
 
 // MARK: - Tagged × Scale<1> (Uniform Scaling)
