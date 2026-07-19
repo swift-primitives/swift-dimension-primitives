@@ -25,6 +25,16 @@ private typealias QY = Coordinate.Y<TestSpace>.Value<Double>
 private typealias QDx = Displacement.X<TestSpace>.Value<Double>
 private typealias QDy = Displacement.Y<TestSpace>.Value<Double>
 
+// MARK: - Generic-Context Equality Probe
+
+/// Compares through the `Equatable` protocol requirement in a generic
+/// context, exactly as `Set`, `Dictionary`, `Array.contains`, and any
+/// `func f<T: Equatable>` do — dispatched via the protocol witness table
+/// rather than a concrete-type static `==` lookup.
+private func genericEqual<T: Equatable>(_ lhs: T, _ rhs: T) -> Bool {
+    lhs == rhs
+}
+
 // MARK: - Tests
 
 @Suite
@@ -184,6 +194,34 @@ struct `Tagged+Quantized` {
 
             #expect(result.ticks == 2916)
             #expect(result.underlying.bitPattern == canonical.underlying.bitPattern)
+        }
+    }
+
+    @Suite
+    struct `Equatable Hashable Coherence` {
+
+        // F-002 regression: a tick-based `==`/`!=` shadowed (but did not
+        // replace) the upstream bitwise `Equatable` conformance. That
+        // shadow was selected at a *direct* call site (concrete types
+        // known, as below) but never at a *generic* one (Set, Dictionary,
+        // Array.contains, or any `func f<T: Equatable>`), which always
+        // dispatches through the protocol witness table to the unmodified
+        // bitwise conformance. `_unchecked` construction (public, and used
+        // by `ExpressibleByFloatLiteral` upstream) bypasses quantization,
+        // so two values can share a tick while holding different bits —
+        // exactly the case that used to make direct and generic equality
+        // disagree.
+        @Test
+        func `direct and generic equality contexts agree for same-tick, different-bit values`() {
+            let x1 = QX(_unchecked: 123.401)
+            let x2 = QX(_unchecked: 123.404)
+
+            // Precondition for the regression to be meaningful: same grid
+            // point, distinguishable bits.
+            #expect(x1.ticks == x2.ticks)
+            #expect(x1.underlying.bitPattern != x2.underlying.bitPattern)
+
+            #expect((x1 == x2) == genericEqual(x1, x2))
         }
     }
 

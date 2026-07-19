@@ -54,7 +54,15 @@ extension Tagged where Tag: Spatial, Tag.Space: Numeric.Quantized, Underlying: B
     /// The integer tick representing this quantized value.
     ///
     /// The tick is the canonical representation: `value ≈ tick × quantum`.
-    /// Two values with equal ticks represent the same grid point.
+    /// Two values with equal ticks represent the same grid point, and — as
+    /// long as both were produced by this package's construction paths
+    /// (the `init(_:)` on `Tag: Spatial` spaces, `init(ticks:)`, or the
+    /// quantizing arithmetic operators) — also carry identical underlying
+    /// bits, so `Self`'s inherited bitwise `Equatable`/`Hashable`
+    /// conformance already agrees with tick equality. Compare `.ticks`
+    /// explicitly (rather than `==`) when a value may have been constructed
+    /// through `init(_unchecked:)` or a literal, which bypass quantization
+    /// and are not guaranteed to hold canonical bits for their tick.
     @inlinable
     public var ticks: Int64 {
         let q = Tag.Space.quantum(as: Underlying.self)
@@ -71,22 +79,28 @@ extension Tagged where Tag: Spatial, Tag.Space: Numeric.Quantized, Underlying: B
     }
 }
 
-// MARK: - Tick-Based Equality
-
-extension Tagged where Tag: Spatial, Tag.Space: Numeric.Quantized, Underlying: BinaryFloatingPoint {
-    /// Compares two quantized values by their tick (grid point).
-    ///
-    /// This is the mathematically correct equality for quantized types:
-    /// two values are equal iff they represent the same grid point,
-    /// regardless of floating-point representation differences.
-    @inlinable
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.ticks == rhs.ticks
-    }
-
-    /// Compares two quantized values by their tick (grid point).
-    @inlinable
-    public static func != (lhs: Self, rhs: Self) -> Bool {
-        lhs.ticks != rhs.ticks
-    }
-}
+// Note on Equatable/Hashable (F-002 remediation): earlier revisions shadowed
+// `==`/`!=` here with a tick-based comparison constrained to
+// `Tag.Space: Numeric.Quantized`. Because `Tagged`'s `Equatable`/`Hashable`
+// conformances are declared unconditionally upstream in
+// swift-tagged-primitives (bitwise over `underlying`), Swift does not permit
+// a second, more specific conditional conformance to the same protocol for
+// an overlapping constraint set — so those operators could only ever shadow
+// `==`/`!=` as ordinary static functions, not replace the protocol witness.
+// That split equality into two incompatible notions depending on call site:
+// a *direct* context (`x == y` with both operands' concrete types known)
+// resolved to this tick-based overload, while any *generic* context
+// (`Set`, `Dictionary`, `Array.contains`, or any `func f<T: Equatable>`)
+// dispatched through the protocol witness table to the unmodified bitwise
+// `==` — and `hash(into:)` was never overridden at all, so it always hashed
+// bits. A value pair that compared equal directly could compare unequal
+// generically and hash unequally, violating the Hashable contract's spirit
+// even though the compiler's own witness-table dispatch stayed internally
+// consistent for each individual context.
+//
+// F-001's fix guarantees canonical bits (same tick => identical bits) at
+// every construction path this package controls, so removing the shadow
+// operators makes the single upstream bitwise Equatable/Hashable conformance
+// the one, coherent notion of equality in both direct and generic contexts —
+// see the `ticks` doc comment above for the residual `_unchecked`/literal
+// caveat this does not (and cannot, from this package) close.
